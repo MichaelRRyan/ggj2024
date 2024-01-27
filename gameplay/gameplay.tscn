@@ -20,8 +20,8 @@ size = Vector2(234, 2074)
 [node name="Terrain" parent="." instance=ExtResource("1_w7dwa")]
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(298, -74)
-zoom = Vector2(1.15, 1.15)
+position = Vector2(193, -76)
+zoom = Vector2(1.705, 1.705)
 
 [node name="Background1" type="Sprite2D" parent="."]
 z_index = -9
@@ -59,14 +59,14 @@ position = Vector2(426.5, 98)
 shape = SubResource("RectangleShape2D_f1gx5")
 
 [node name="LeftBound" type="StaticBody2D" parent="."]
-position = Vector2(-213.9, 0)
+position = Vector2(-159, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LeftBound"]
 position = Vector2(-107, -740)
 shape = SubResource("RectangleShape2D_llhst")
 
 [node name="RightBound" type="StaticBody2D" parent="."]
-position = Vector2(1020.05, 0)
+position = Vector2(757, 5)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RightBound"]
 position = Vector2(-107, -740)

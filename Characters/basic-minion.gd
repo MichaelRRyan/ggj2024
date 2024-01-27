@@ -20,7 +20,6 @@ var is_moving : bool = true
 var has_target : bool = false
 var target_x : float = 0.0
 var target_x_diff : float = 0.0
-var direction : int = 0
 var rng = RandomNumberGenerator.new()
 var random_number = 0.0
 
@@ -35,32 +34,32 @@ func _ready():
 	name = Global.minion_names[randi() % Global.minion_names.size()]
 
 func _physics_process(delta):
-	# Add the gravity.
-	if not is_on_floor():
-		velocity.y += gravity * delta
+	var direction = 0
 	
 	if is_on_floor():
 		if not _prev_is_on_floor and _prev_velocity.y >= _fall_dmg_thershold:
 			take_damage((_prev_velocity.y - _fall_dmg_thershold) * _fall_dmg_ratio)
 			print(_prev_velocity)
 		velocity.x *= _ground_friction
-	else:
-		velocity.x *= _air_friction
 		
-	if has_target:
-		target_x_diff = get_global_position().x - target_x
-		if target_x_diff < 0.0:
-			direction = 1
+		if has_target:
+			target_x_diff = get_global_position().x - target_x
+			if target_x_diff < 0.0:
+				direction = 1
+			else:
+				direction = -1
 		else:
-			direction = -1
-	else:
-		direction = 0
+			direction = 0
 
-	if has_task && not has_target && not is_interacting:
-		if random_number >= 0.0:
-			direction = 1
-		else:
-			direction = -1
+		if has_task && not has_target && not is_interacting:
+			if random_number >= 0.0:
+				direction = 1
+			else:
+				direction = -1
+		
+	else:
+		velocity.y += gravity * delta
+		velocity.x *= _air_friction
 			
 	if direction != 0:
 		$AnimatedSprite2D.play("Walk")
@@ -97,7 +96,6 @@ func _on_interact_range_body_entered(_body):
 		has_target = false
 		is_interacting = true
 		has_task = true
-		direction = 0
 		harvest_timer.start(3)
 
 
