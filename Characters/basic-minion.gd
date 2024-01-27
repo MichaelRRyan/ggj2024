@@ -1,7 +1,7 @@
-extends CharacterBody2D
-
+extends Entity
 
 @export var speed : float = 300.0
+@export var acceleration : float = 300.0
 @export var jump_velocity : float = -400.0
 @export var health : float = 10
 var fall_strength : int = 0;
@@ -21,9 +21,7 @@ var random_number = 0.0
 
 @onready var harvest_timer = $TimerHarvest
 
-
-# Get the gravity from the project settings to be synced with RigidBody nodes.
-var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+@onready var _pickup_component : PickupComponent = get_node("PickupComponent")
 
 
 func _physics_process(delta):
@@ -31,18 +29,15 @@ func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y += gravity * delta
 		fall_strength += 1
-		print(fall_strength)
 	
 	if is_on_floor():
-		if fall_strength >= 20:
-			health -= (fall_strength - 20) / 10
-			print(health)
+		if fall_strength >= 20.0:
+			health -= (fall_strength - 20.0) / 10.0
 			fall_strength = 0
-
-	# Handle jump.
-	if Input.is_action_just_pressed("up") and is_on_floor():
-		velocity.y = jump_velocity
-
+		velocity.x *= _ground_friction
+	else:
+		velocity.x *= _air_friction
+		
 	if has_target:
 		target_x_diff = get_global_position().x - target_x
 		if target_x_diff < 0.0:
@@ -51,20 +46,15 @@ func _physics_process(delta):
 			direction = -1
 	else:
 		direction = 0
-		
+
 	if has_task && not has_target && not is_interacting:
 		if random_number >= 0.0:
 			direction = 1
 		else:
 			direction = -1
-		
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-		
-	#if has_target:
-	velocity.x = direction * speed
-	#else:
-		#velocity.x = move_toward(velocity.x, 0, speed)
+
+	if _pickup_component == null or not _pickup_component.is_held():
+		velocity.x = clamp(velocity.x + direction * acceleration * delta, -speed, speed)
 
 	move_and_slide()
 
@@ -85,7 +75,7 @@ func _on_timer_idle_timeout():
 			random_number = rng.randf_range(-1.0, 1.0)
 
 
-func _on_interact_range_body_entered(body):
+func _on_interact_range_body_entered(_body):
 	if has_target:
 		has_target = false
 		is_interacting = true
