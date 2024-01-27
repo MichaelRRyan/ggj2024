@@ -7,6 +7,7 @@ extends CharacterBody2D
 var fall_strength : int = 0;
 @export var fall_dmg_thershold : float = 20.0
 @export var fall_dmg_ratio : float = 1.0
+var target
 var is_interacting : bool = false
 var has_task : bool = false
 var has_axe : bool = false
@@ -17,6 +18,8 @@ var target_x_diff : float = 0.0
 var direction : int = 0
 var rng = RandomNumberGenerator.new()
 var random_number = 0.0
+
+@onready var harvest_timer = $TimerHarvest
 
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
@@ -54,6 +57,7 @@ func _physics_process(delta):
 			direction = 1
 		else:
 			direction = -1
+		
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 		
@@ -67,6 +71,7 @@ func _physics_process(delta):
 func _on_view_body_entered(body):
 	if not is_interacting:
 		if body.is_in_group("tree"):
+			target = body
 			has_target = true
 			has_task = true
 			target_x = body.get_global_position().x
@@ -86,3 +91,13 @@ func _on_interact_range_body_entered(body):
 		is_interacting = true
 		has_task = true
 		direction = 0
+		harvest_timer.start(3)
+
+
+func _on_timer_harvest_timeout():
+	target.chop()
+	target.queue_free()
+	harvest_timer.stop()
+	is_interacting = false
+	has_task = false
+	pass # Replace with function body.
