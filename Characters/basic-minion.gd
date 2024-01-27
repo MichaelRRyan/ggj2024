@@ -1,4 +1,5 @@
 extends Entity
+class_name Minion
 
 @export var speed : float = 300.0
 @export var acceleration : float = 300.0
@@ -8,6 +9,7 @@ extends Entity
 @export var _fall_dmg_thershold : float = 200.0
 @export var _fall_dmg_ratio : float = 0.01
 var _prev_velocity := Vector2.ZERO
+var _prev_is_on_floor = false
 var target
 var is_interacting : bool = false
 var has_task : bool = false
@@ -28,6 +30,7 @@ var random_number = 0.0
 func _ready():
 	health = max_health
 	$HealthBar.value = health / max_health
+	name = Global.minion_names[randi() % Global.minion_names.size()]
 
 func _physics_process(delta):
 	# Add the gravity.
@@ -35,8 +38,8 @@ func _physics_process(delta):
 		velocity.y += gravity * delta
 	
 	if is_on_floor():
-		if _prev_velocity.y >= _fall_dmg_thershold:
-			_take_damage((_prev_velocity.y - _fall_dmg_thershold) * _fall_dmg_ratio)
+		if not _prev_is_on_floor and _prev_velocity.y >= _fall_dmg_thershold:
+			take_damage((_prev_velocity.y - _fall_dmg_thershold) * _fall_dmg_ratio)
 			print(_prev_velocity)
 		velocity.x *= _ground_friction
 	else:
@@ -61,6 +64,7 @@ func _physics_process(delta):
 		velocity.x = clamp(velocity.x + direction * acceleration * delta, -speed, speed)
 	
 	_prev_velocity = velocity
+	_prev_is_on_floor = is_on_floor()
 	move_and_slide()
 
 func _on_view_body_entered(body):
@@ -97,11 +101,12 @@ func _on_timer_harvest_timeout():
 	has_task = false
 	pass # Replace with function body.
 
-func _take_damage(amount : float):
+func take_damage(amount : float):
 	health -= amount
 	$HealthBar.value = health / max_health
 	if health <= 0:
 		_die()
 
 func _die():
+	print(name + " has died.")
 	queue_free()

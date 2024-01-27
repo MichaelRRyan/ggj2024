@@ -25,3 +25,14 @@ class Mouse:
 
 
 var mouse : Mouse = Mouse.new()
+
+var minion_names = [
+	"Joe",
+	"Pete",
+	"John",
+	"Michael",
+	"Nick",
+	"Naoise",
+	"Dylan",
+	"Matt"
+]
