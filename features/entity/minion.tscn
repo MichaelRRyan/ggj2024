@@ -1,8 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://b7u5ttuukuhdx"]
+[gd_scene load_steps=8 format=3 uid="uid://b7u5ttuukuhdx"]
 
 [ext_resource type="PackedScene" uid="uid://c1q10vduv63ji" path="res://features/entity/entity.tscn" id="1_cjd4a"]
 [ext_resource type="Script" path="res://Characters/basic-minion.gd" id="2_3qkd6"]
 [ext_resource type="Script" path="res://Characters/TimerIdle.gd" id="3_xjedm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_da5kl"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_b7och"]
 
@@ -20,6 +22,9 @@ jump_velocity = -400.0
 health = 10.0
 fall_dmg_thershold = 20.0
 fall_dmg_ratio = 1.0
+
+[node name="CollisionShape2D" parent="." index="1"]
+shape = SubResource("RectangleShape2D_da5kl")
 
 [node name="HoldEntityComponent" type="Area2D" parent="." index="3" groups=["hold_entity_component"]]
 
