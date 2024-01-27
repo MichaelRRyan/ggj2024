@@ -7,12 +7,15 @@ extends CharacterBody2D
 var fall_strength : int = 0;
 @export var fall_dmg_thershold : float = 20.0
 @export var fall_dmg_ratio : float = 1.0
+var has_task : bool = false
 var has_axe : bool = false
 var is_moving : bool = true
 var has_target : bool = false
 var target_x : float = 0.0
 var target_x_diff : float = 0.0
 var direction : int = 0
+var rng = RandomNumberGenerator.new()
+var random_number = 0.0
 
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
@@ -44,6 +47,12 @@ func _physics_process(delta):
 			direction = -1
 	else:
 		direction = 0
+		
+	if has_task && not has_target:
+		if random_number >= 0.0:
+			direction = 1
+		else:
+			direction = -1
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 		
@@ -57,6 +66,16 @@ func _physics_process(delta):
 func _on_view_body_entered(body):
 	if body.is_in_group("tree"):
 		has_target = true
+		has_task = true
 		target_x = body.get_global_position().x
 		print(target_x)
+	pass # Replace with function body.
+
+
+func _on_timer_idle_timeout():
+	if not has_target:
+		has_task = not has_task
+		random_number = rng.randf_range(-1.0, 1.0)
+	
+		
 	pass # Replace with function body.

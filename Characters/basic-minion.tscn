@@ -25,4 +25,8 @@ collision_mask = 2
 [node name="ViewCollisionShape2D" type="CollisionShape2D" parent="View"]
 shape = SubResource("RectangleShape2D_ruxlq")
 
+[node name="TimerIdle" type="Timer" parent="."]
+autostart = true
+
 [connection signal="body_entered" from="View" to="." method="_on_view_body_entered"]
+[connection signal="timeout" from="TimerIdle" to="." method="_on_timer_idle_timeout"]
