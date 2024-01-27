@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://coiak86a6j23m"]
+
+[ext_resource type="PackedScene" uid="uid://cw4bt3vwparv0" path="res://features/terrain/terrain.tscn" id="1_w7dwa"]
+[ext_resource type="Texture2D" uid="uid://n0528l5ksxks" path="res://assets/images/backgrounds/placeholder_background1.png" id="2_be6do"]
+[ext_resource type="Texture2D" uid="uid://bt5kkv3yt2tko" path="res://assets/images/backgrounds/placeholder_background2.png" id="3_q37f8"]
+
+[node name="Gameplay" type="Node2D"]
+
+[node name="Terrain" parent="." instance=ExtResource("1_w7dwa")]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(298, -74)
+zoom = Vector2(1.15, 1.15)
+
+[node name="Background1" type="Sprite2D" parent="."]
+z_index = -9
+texture_filter = 1
+position = Vector2(300, -74)
+scale = Vector2(2.065, 2.065)
+texture = ExtResource("2_be6do")
+
+[node name="Background2" type="Sprite2D" parent="."]
+z_index = -10
+texture_filter = 1
+position = Vector2(300, -74)
+scale = Vector2(2.065, 2.065)
+texture = ExtResource("3_q37f8")
