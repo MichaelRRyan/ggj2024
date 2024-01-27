@@ -10,9 +10,7 @@ var fall_strength : int = 0;
 var target
 var is_interacting : bool = false
 var has_task : bool = false
-var has_axe : bool = false
-var is_moving : bool = true
-var has_target : bool = false
+var has_target : bool
 var target_x : float = 0.0
 var target_x_diff : float = 0.0
 var direction : int = 0
@@ -38,14 +36,17 @@ func _physics_process(delta):
 	else:
 		velocity.x *= _air_friction
 		
+	print(has_target)
+	
 	if has_target:
 		target_x_diff = get_global_position().x - target_x
+		print(target_x_diff)
 		if target_x_diff < 0.0:
 			direction = 1
 		else:
 			direction = -1
-	else:
-		direction = 0
+	#else:
+		#direction = 0
 
 	if has_task && not has_target && not is_interacting:
 		if random_number >= 0.0:
@@ -64,7 +65,7 @@ func _on_view_body_entered(body):
 			target = body
 			has_target = true
 			has_task = true
-			target_x = body.get_global_position().x
+			target_x = target.get_global_position().x
 			print(target_x)
 
 
@@ -77,7 +78,6 @@ func _on_timer_idle_timeout():
 
 func _on_interact_range_body_entered(_body):
 	if has_target:
-		has_target = false
 		is_interacting = true
 		has_task = true
 		direction = 0
@@ -90,4 +90,5 @@ func _on_timer_harvest_timeout():
 	harvest_timer.stop()
 	is_interacting = false
 	has_task = false
+	has_target = false
 	pass # Replace with function body.

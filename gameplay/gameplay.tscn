@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://coiak86a6j23m"]
+[gd_scene load_steps=8 format=3 uid="uid://coiak86a6j23m"]
 
 [ext_resource type="PackedScene" uid="uid://cw4bt3vwparv0" path="res://features/terrain/terrain.tscn" id="1_w7dwa"]
 [ext_resource type="Texture2D" uid="uid://n0528l5ksxks" path="res://assets/images/backgrounds/placeholder_background1.png" id="2_be6do"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://b1fcgkgk1wywa" path="res://features/entity/tools/tool.tscn" id="5_ay17o"]
 [ext_resource type="PackedScene" uid="uid://b7u5ttuukuhdx" path="res://features/entity/minion.tscn" id="6_jtv3i"]
 [ext_resource type="PackedScene" uid="uid://d0evc57fmifxm" path="res://features/entity/resources/resource.tscn" id="6_xoc8x"]
+[ext_resource type="PackedScene" uid="uid://c0ierwhaepa5j" path="res://Characters/tree.tscn" id="7_0y3i6"]
 
 [node name="Gameplay" type="Node2D"]
 
@@ -37,3 +38,6 @@ position = Vector2(-59, -172)
 
 [node name="Resource" parent="." instance=ExtResource("6_xoc8x")]
 position = Vector2(77, -47)
+
+[node name="tree" parent="." instance=ExtResource("7_0y3i6")]
+position = Vector2(215, -14)
