@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://co6ni4jkxlusy"]
+
+[ext_resource type="Script" path="res://Characters/basic-minion.gd" id="1_gve4a"]
+[ext_resource type="Texture2D" uid="uid://da4qjah5rn2oc" path="res://icon.svg" id="2_s4ui1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w3pcn"]
+size = Vector2(128, 128)
+
+[node name="Minion" type="CharacterBody2D"]
+script = ExtResource("1_gve4a")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_w3pcn")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_s4ui1")
