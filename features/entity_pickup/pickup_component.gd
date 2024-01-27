@@ -1,11 +1,11 @@
 extends Area2D
 class_name PickupComponent
 
+signal picked_up
+
 @export var _drag_speed := 10.0
 
-enum HoldState { NOT_HELD, MOUSE_CURSOR, ENTITY }
-
-var _held_state = HoldState.NOT_HELD
+var _is_held = false
 var _mouse_hovered := false
 var _parent : CharacterBody2D = null
 var _hovered_hold_component = null
@@ -13,13 +13,14 @@ var _hovered_hold_component = null
 
 #-------------------------------------------------------------------------------
 func is_held():
-	return _held_state != HoldState.NOT_HELD
+	return _is_held
 
 
 #-------------------------------------------------------------------------------
 func mouse_pickup():
-	_held_state = HoldState.MOUSE_CURSOR
-	print(_parent.name + " Held mouse")
+	_is_held = true
+	emit_signal("picked_up")
+
 
 #-------------------------------------------------------------------------------
 func _ready():
@@ -33,16 +34,13 @@ func _ready():
 
 #-------------------------------------------------------------------------------
 func _process(_delta):
-	if _held_state == HoldState.MOUSE_CURSOR:
+	if _is_held:
 		var distance = get_global_mouse_position() - _parent.position
 		var raw_vel = distance * _drag_speed
 		var distance_with_framerate = distance.length() * 60.0
 		var vel_length = clamp(raw_vel.length(), -distance_with_framerate, distance_with_framerate)
 		var final_vel = raw_vel.normalized() * vel_length
 		_parent.velocity = final_vel
-		
-	elif _held_state == HoldState.ENTITY:
-		_parent.position = _hovered_hold_component.global_position
 
 #-------------------------------------------------------------------------------
 func _on_mouse_entered():
@@ -56,18 +54,17 @@ func _on_mouse_exited():
 func _input(event):
 	if event.is_action_pressed("select") and _mouse_hovered:
 		Global.mouse.request_pickup(self)
-			
-	elif event.is_action_released("select") and _held_state == HoldState.MOUSE_CURSOR:
-		print("Unclick")
-		if _hovered_hold_component: # If hovering over a hold component.
+		
+	elif event.is_action_released("select") and _is_held:
+		# If hovering over a hold component and not a minion.
+		if _hovered_hold_component and not _parent.is_in_group("minion"):
 			Global.mouse.is_holding_entity = false
-			_held_state = HoldState.ENTITY
-			print(_parent.name + " Is held by " + _hovered_hold_component.get_parent().name)
+			_hovered_hold_component.hold(_parent, self)
+			_is_held = false
+			
 		else:
 			Global.mouse.is_holding_entity = false
-			_held_state = HoldState.NOT_HELD
-			print(_parent.name + " dropped")
-			print(_parent.velocity)
+			_is_held = false
 
 #-------------------------------------------------------------------------------
 func _on_area_entered(area):
@@ -79,14 +76,10 @@ func _on_area_entered(area):
 			return
 			
 		_hovered_hold_component = area
-		print("Hold area entered")
 
 #-------------------------------------------------------------------------------
 func _on_area_exited(area):
-	if area.is_in_group("hold_entity_component") \
-			and area == _hovered_hold_component \
-			and _held_state != HoldState.ENTITY:
+	if area.is_in_group("hold_entity_component") and area == _hovered_hold_component:
 		_hovered_hold_component = null
-		print("Hold area exited")
 
 #-------------------------------------------------------------------------------
