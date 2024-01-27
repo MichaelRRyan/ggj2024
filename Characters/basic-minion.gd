@@ -71,7 +71,6 @@ func _on_view_body_entered(body):
 			has_task = true
 			target_x = body.get_global_position().x
 			print(target_x)
-	pass # Replace with function body.
 
 
 func _on_timer_idle_timeout():
@@ -79,9 +78,6 @@ func _on_timer_idle_timeout():
 		if not is_interacting:
 			has_task = not has_task
 			random_number = rng.randf_range(-1.0, 1.0)
-	
-		
-	pass # Replace with function body.
 
 
 func _on_interact_range_body_entered(body):
@@ -90,4 +86,3 @@ func _on_interact_range_body_entered(body):
 		is_interacting = true
 		has_task = true
 		direction = 0
-	pass # Replace with function body.
