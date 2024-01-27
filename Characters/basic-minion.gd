@@ -61,7 +61,13 @@ func _physics_process(delta):
 			direction = 1
 		else:
 			direction = -1
-
+			
+	if direction != 0:
+		$AnimatedSprite2D.play("Walk")
+		$AnimatedSprite2D.flip_h = direction < 0
+	else:
+		$AnimatedSprite2D.play("Idle")
+		
 	if _pickup_component == null or not _pickup_component.is_held():
 		velocity.x = clamp(velocity.x + direction * acceleration * delta, -speed, speed)
 	
