@@ -56,7 +56,8 @@ func _input(event):
 		Global.mouse.request_pickup(self)
 		
 	elif event.is_action_released("select") and _is_held:
-		if _hovered_hold_component: # If hovering over a hold component.
+		# If hovering over a hold component and not a minion.
+		if _hovered_hold_component and not _parent.is_in_group("minion"):
 			Global.mouse.is_holding_entity = false
 			_hovered_hold_component.hold(_parent, self)
 			_is_held = false
