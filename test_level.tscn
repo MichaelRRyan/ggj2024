@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://ba76487m6h5ka"]
+[gd_scene load_steps=6 format=3 uid="uid://bc5nrp7cpnj6d"]
 
 [ext_resource type="Texture2D" uid="uid://da4qjah5rn2oc" path="res://icon.svg" id="1_7hj47"]
 [ext_resource type="PackedScene" uid="uid://co6ni4jkxlusy" path="res://Characters/basic-minion.tscn" id="2_aihl1"]
@@ -234,4 +234,3 @@ layer_0/tile_data = PackedInt32Array(1966125, 0, 0, 1966126, 65536, 0, 1966127, 
 position = Vector2(358, 54)
 speed = 200.0
 jump_velocity = -200.0
-health = 10.0
