@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://b7u5ttuukuhdx"]
+[gd_scene load_steps=9 format=3 uid="uid://b7u5ttuukuhdx"]
 
 [ext_resource type="PackedScene" uid="uid://c1q10vduv63ji" path="res://features/entity/entity.tscn" id="1_cjd4a"]
 [ext_resource type="Script" path="res://Characters/basic-minion.gd" id="2_3qkd6"]
@@ -12,14 +12,21 @@ size = Vector2(1617.5, 1449.5)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2luo6"]
 size = Vector2(210.25, 187.75)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kcdhf"]
+bg_color = Color(0.929412, 0.419608, 0.372549, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6fl1g"]
+bg_color = Color(0.368627, 0.741176, 0.321569, 1)
+
 [node name="Minion" groups=["minion"] instance=ExtResource("1_cjd4a")]
 script = ExtResource("2_3qkd6")
 speed = 300.0
 acceleration = 300.0
 jump_velocity = -400.0
 health = 10.0
-fall_dmg_thershold = 20.0
-fall_dmg_ratio = 1.0
+max_health = 10.0
+_fall_dmg_thershold = 200.0
+_fall_dmg_ratio = 0.01
 
 [node name="HoldEntityComponent" type="Area2D" parent="." index="3" groups=["hold_entity_component"]]
 
@@ -42,6 +49,26 @@ shape = SubResource("RectangleShape2D_2luo6")
 script = ExtResource("3_xjedm")
 
 [node name="TimerHarvest" type="Timer" parent="." index="7"]
+
+[node name="HealthBar" type="ProgressBar" parent="." index="8"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -15.0
+offset_top = -26.0
+offset_right = 173.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.16, 0.16)
+theme_override_colors/font_color = Color(0, 0, 0, 0)
+theme_override_styles/background = SubResource("StyleBoxFlat_kcdhf")
+theme_override_styles/fill = SubResource("StyleBoxFlat_6fl1g")
+max_value = 1.0
+step = 0.0
+value = 1.0
 
 [connection signal="body_entered" from="View" to="." method="_on_view_body_entered"]
 [connection signal="body_entered" from="InteractRange" to="." method="_on_interact_range_body_entered"]

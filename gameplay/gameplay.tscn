@@ -33,3 +33,6 @@ position = Vector2(157, -96)
 
 [node name="Minion" parent="." instance=ExtResource("6_jtv3i")]
 position = Vector2(-59, -172)
+max_health = 10.0
+_fall_dmg_thershold = 200.0
+_fall_dmg_ratio = 0.01

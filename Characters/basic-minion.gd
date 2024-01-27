@@ -4,9 +4,10 @@ extends Entity
 @export var acceleration : float = 300.0
 @export var jump_velocity : float = -400.0
 @export var health : float = 10
-var fall_strength : int = 0;
-@export var fall_dmg_thershold : float = 20.0
-@export var fall_dmg_ratio : float = 1.0
+@export var max_health : float = 10
+@export var _fall_dmg_thershold : float = 200.0
+@export var _fall_dmg_ratio : float = 0.01
+var _prev_velocity := Vector2.ZERO
 var target
 var is_interacting : bool = false
 var has_task : bool = false
@@ -24,16 +25,19 @@ var random_number = 0.0
 @onready var _pickup_component : PickupComponent = get_node("PickupComponent")
 
 
+func _ready():
+	health = max_health
+	$HealthBar.value = health / max_health
+
 func _physics_process(delta):
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y += gravity * delta
-		fall_strength += 1
 	
 	if is_on_floor():
-		if fall_strength >= 20.0:
-			health -= (fall_strength - 20.0) / 10.0
-			fall_strength = 0
+		if _prev_velocity.y >= _fall_dmg_thershold:
+			_take_damage((_prev_velocity.y - _fall_dmg_thershold) * _fall_dmg_ratio)
+			print(_prev_velocity)
 		velocity.x *= _ground_friction
 	else:
 		velocity.x *= _air_friction
@@ -55,7 +59,8 @@ func _physics_process(delta):
 
 	if _pickup_component == null or not _pickup_component.is_held():
 		velocity.x = clamp(velocity.x + direction * acceleration * delta, -speed, speed)
-
+	
+	_prev_velocity = velocity
 	move_and_slide()
 
 func _on_view_body_entered(body):
@@ -91,3 +96,12 @@ func _on_timer_harvest_timeout():
 	is_interacting = false
 	has_task = false
 	pass # Replace with function body.
+
+func _take_damage(amount : float):
+	health -= amount
+	$HealthBar.value = health / max_health
+	if health <= 0:
+		_die()
+
+func _die():
+	queue_free()
