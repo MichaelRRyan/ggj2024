@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name Entity
 
 @export var _ground_friction := 0.9
 @export var _air_friction := 0.995

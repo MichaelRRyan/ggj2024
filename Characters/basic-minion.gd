@@ -1,7 +1,7 @@
-extends CharacterBody2D
-
+extends Entity
 
 @export var speed : float = 300.0
+@export var acceleration : float = 100.0
 @export var jump_velocity : float = -400.0
 @export var health : float = 10
 var fall_strength : int = 0;
@@ -14,9 +14,7 @@ var target_x : float = 0.0
 var target_x_diff : float = 0.0
 var direction : int = 0
 
-
-# Get the gravity from the project settings to be synced with RigidBody nodes.
-var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+@onready var _pickup_component : PickupComponent = get_node("PickupComponent")
 
 
 func _physics_process(delta):
@@ -24,18 +22,15 @@ func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y += gravity * delta
 		fall_strength += 1
-		print(fall_strength)
 	
 	if is_on_floor():
 		if fall_strength >= 20:
 			health -= (fall_strength - 20) / 10
-			print(health)
 			fall_strength = 0
-
-	# Handle jump.
-	if Input.is_action_just_pressed("up") and is_on_floor():
-		velocity.y = jump_velocity
-
+		velocity.x *= _ground_friction
+	else:
+		velocity.x *= _air_friction
+		
 	if has_target:
 		target_x_diff = get_global_position().x - target_x
 		if target_x_diff < 0.0:
@@ -44,13 +39,9 @@ func _physics_process(delta):
 			direction = -1
 	else:
 		direction = 0
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-		
-	#if has_target:
-	velocity.x = direction * speed
-	#else:
-		#velocity.x = move_toward(velocity.x, 0, speed)
+
+	if _pickup_component == null or not _pickup_component.is_held():
+		velocity.x = clamp(velocity.x + direction * acceleration * delta, -speed, speed)
 
 	move_and_slide()
 
@@ -58,5 +49,3 @@ func _on_view_body_entered(body):
 	if body.is_in_group("tree"):
 		has_target = true
 		target_x = body.get_global_position().x
-		print(target_x)
-	pass # Replace with function body.
