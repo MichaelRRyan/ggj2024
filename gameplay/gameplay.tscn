@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://coiak86a6j23m"]
+[gd_scene load_steps=10 format=3 uid="uid://coiak86a6j23m"]
 
 [ext_resource type="PackedScene" uid="uid://cw4bt3vwparv0" path="res://features/terrain/terrain.tscn" id="1_w7dwa"]
 [ext_resource type="Texture2D" uid="uid://n0528l5ksxks" path="res://assets/images/backgrounds/placeholder_background1.png" id="2_be6do"]
@@ -6,9 +6,13 @@
 [ext_resource type="PackedScene" uid="uid://b1fcgkgk1wywa" path="res://features/entity/tools/tool.tscn" id="5_ay17o"]
 [ext_resource type="PackedScene" uid="uid://b7u5ttuukuhdx" path="res://features/entity/minion.tscn" id="6_jtv3i"]
 [ext_resource type="Script" path="res://gameplay/kill_area.gd" id="6_uc1pn"]
+[ext_resource type="Script" path="res://gameplay/objective_manager.gd" id="7_60kk4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f1gx5"]
 size = Vector2(17811, 158)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_llhst"]
+size = Vector2(234, 2074)
 
 [node name="Gameplay" type="Node2D"]
 
@@ -38,6 +42,12 @@ position = Vector2(157, -96)
 [node name="Minion" parent="." instance=ExtResource("6_jtv3i")]
 position = Vector2(-59, -172)
 
+[node name="Minion2" parent="." instance=ExtResource("6_jtv3i")]
+position = Vector2(-59, -172)
+
+[node name="Minion3" parent="." instance=ExtResource("6_jtv3i")]
+position = Vector2(-59, -172)
+
 [node name="KillArea" type="Area2D" parent="."]
 position = Vector2(0, 200)
 collision_mask = 2
@@ -46,5 +56,22 @@ script = ExtResource("6_uc1pn")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="KillArea"]
 position = Vector2(426.5, 98)
 shape = SubResource("RectangleShape2D_f1gx5")
+
+[node name="ObjectiveManager" type="Node" parent="."]
+script = ExtResource("7_60kk4")
+
+[node name="LeftBound" type="StaticBody2D" parent="."]
+position = Vector2(-213.9, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftBound"]
+position = Vector2(-107, -740)
+shape = SubResource("RectangleShape2D_llhst")
+
+[node name="RightBound" type="StaticBody2D" parent="."]
+position = Vector2(1020.05, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightBound"]
+position = Vector2(-107, -740)
+shape = SubResource("RectangleShape2D_llhst")
 
 [connection signal="body_entered" from="KillArea" to="KillArea" method="_on_body_entered"]

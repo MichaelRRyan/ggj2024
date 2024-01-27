@@ -1,6 +1,8 @@
 extends Entity
 class_name Minion
 
+signal died
+
 @export var speed : float = 300.0
 @export var acceleration : float = 300.0
 @export var jump_velocity : float = -400.0
@@ -109,4 +111,5 @@ func take_damage(amount : float):
 
 func _die():
 	print(name + " has died.")
+	emit_signal("died")
 	queue_free()
