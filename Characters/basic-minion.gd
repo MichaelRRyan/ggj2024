@@ -96,4 +96,8 @@ func _on_interact_range_body_entered(body):
 
 func _on_timer_harvest_timeout():
 	target.chop()
+	target.queue_free()
+	harvest_timer.stop()
+	is_interacting = false
+	has_task = false
 	pass # Replace with function body.
