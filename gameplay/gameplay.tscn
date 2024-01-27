@@ -29,3 +29,9 @@ texture = ExtResource("3_q37f8")
 
 [node name="Entity" parent="." instance=ExtResource("4_2pljg")]
 position = Vector2(82, -11)
+
+[node name="Entity2" parent="." instance=ExtResource("4_2pljg")]
+position = Vector2(90, -25)
+
+[node name="Entity3" parent="." instance=ExtResource("4_2pljg")]
+position = Vector2(95, -8)
