@@ -53,3 +53,4 @@ script = ExtResource("3_xjedm")
 [connection signal="body_entered" from="InteractRange" to="." method="_on_interact_range_body_entered"]
 [connection signal="timeout" from="TimerIdle" to="." method="_on_timer_idle_timeout"]
 [connection signal="timeout" from="TimerIdle" to="TimerIdle" method="_on_timeout"]
+[connection signal="timeout" from="TimerHarvest" to="." method="_on_timer_harvest_timeout"]

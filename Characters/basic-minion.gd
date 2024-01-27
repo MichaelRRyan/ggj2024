@@ -38,15 +38,15 @@ func _physics_process(delta):
 		
 	print(has_target)
 	
-	if has_target:
+	if has_target && not is_interacting:
 		target_x_diff = get_global_position().x - target_x
 		print(target_x_diff)
 		if target_x_diff < 0.0:
 			direction = 1
 		else:
 			direction = -1
-	#else:
-		#direction = 0
+	else:
+		direction = 0
 
 	if has_task && not has_target && not is_interacting:
 		if random_number >= 0.0:
