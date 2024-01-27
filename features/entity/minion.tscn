@@ -348,8 +348,10 @@ texture = ExtResource("4_ol4be")
 hframes = 7
 vframes = 10
 
+[node name="CollisionShape2D" parent="." index="1"]
+position = Vector2(0, -1)
+
 [node name="CollisionShape2D" parent="PickupComponent" index="0"]
-visible = false
 position = Vector2(0, -1.36)
 
 [node name="HoldEntityComponent" type="Area2D" parent="." index="3" groups=["hold_entity_component"]]

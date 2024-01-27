@@ -5,10 +5,10 @@
 [ext_resource type="Script" path="res://features/entity_pickup/pickup_component.gd" id="2_kmm32"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yb0ci"]
-size = Vector2(14, 32)
+size = Vector2(14, 30)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_q6ywv"]
-radius = 8.0
+radius = 13.0
 height = 34.0
 
 [node name="Entity" type="CharacterBody2D"]
