@@ -237,4 +237,4 @@ speed = 200.0
 jump_velocity = -200.0
 
 [node name="tree" parent="." instance=ExtResource("3_xvfbe")]
-position = Vector2(943, 292)
+position = Vector2(1034, 443)
