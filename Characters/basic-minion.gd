@@ -7,6 +7,7 @@ extends CharacterBody2D
 var fall_strength : int = 0;
 @export var fall_dmg_thershold : float = 20.0
 @export var fall_dmg_ratio : float = 1.0
+var is_interacting : bool = false
 var has_task : bool = false
 var has_axe : bool = false
 var is_moving : bool = true
@@ -48,7 +49,7 @@ func _physics_process(delta):
 	else:
 		direction = 0
 		
-	if has_task && not has_target:
+	if has_task && not has_target && not is_interacting:
 		if random_number >= 0.0:
 			direction = 1
 		else:
@@ -64,18 +65,29 @@ func _physics_process(delta):
 	move_and_slide()
 
 func _on_view_body_entered(body):
-	if body.is_in_group("tree"):
-		has_target = true
-		has_task = true
-		target_x = body.get_global_position().x
-		print(target_x)
+	if not is_interacting:
+		if body.is_in_group("tree"):
+			has_target = true
+			has_task = true
+			target_x = body.get_global_position().x
+			print(target_x)
 	pass # Replace with function body.
 
 
 func _on_timer_idle_timeout():
 	if not has_target:
-		has_task = not has_task
-		random_number = rng.randf_range(-1.0, 1.0)
+		if not is_interacting:
+			has_task = not has_task
+			random_number = rng.randf_range(-1.0, 1.0)
 	
 		
+	pass # Replace with function body.
+
+
+func _on_interact_range_body_entered(body):
+	if has_target:
+		has_target = false
+		is_interacting = true
+		has_task = true
+		direction = 0
 	pass # Replace with function body.
