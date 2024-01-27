@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://b7u5ttuukuhdx"]
+[gd_scene load_steps=10 format=3 uid="uid://b7u5ttuukuhdx"]
 
 [ext_resource type="PackedScene" uid="uid://c1q10vduv63ji" path="res://features/entity/entity.tscn" id="1_cjd4a"]
 [ext_resource type="Script" path="res://Characters/basic-minion.gd" id="2_3qkd6"]
+[ext_resource type="Script" path="res://features/hold_entity/hold_entity_component.gd" id="3_ngph7"]
 [ext_resource type="Script" path="res://Characters/TimerIdle.gd" id="3_xjedm"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_b7och"]
@@ -29,6 +30,7 @@ _fall_dmg_thershold = 200.0
 _fall_dmg_ratio = 0.01
 
 [node name="HoldEntityComponent" type="Area2D" parent="." index="3" groups=["hold_entity_component"]]
+script = ExtResource("3_ngph7")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HoldEntityComponent" index="0"]
 shape = SubResource("CircleShape2D_b7och")
@@ -38,11 +40,13 @@ collision_layer = 0
 collision_mask = 2
 
 [node name="ViewCollisionShape2D" type="CollisionShape2D" parent="View" index="0"]
+visible = false
 shape = SubResource("RectangleShape2D_mo8om")
 
 [node name="InteractRange" type="Area2D" parent="." index="5"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractRange" index="0"]
+visible = false
 shape = SubResource("RectangleShape2D_2luo6")
 
 [node name="TimerIdle" type="Timer" parent="." index="6"]
