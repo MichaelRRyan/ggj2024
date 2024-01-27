@@ -321,7 +321,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_wfxwn")
 }],
 "loop": true,
-"name": &"Walk_Right",
+"name": &"Walk",
 "speed": 5.0
 }]
 
@@ -378,8 +378,8 @@ script = ExtResource("3_xjedm")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="8"]
 sprite_frames = SubResource("SpriteFrames_so6kw")
-animation = &"Swing_Axe"
-frame_progress = 0.973639
+animation = &"Walk"
+frame_progress = 0.233553
 
 [connection signal="body_entered" from="View" to="." method="_on_view_body_entered"]
 [connection signal="body_entered" from="InteractRange" to="." method="_on_interact_range_body_entered"]
