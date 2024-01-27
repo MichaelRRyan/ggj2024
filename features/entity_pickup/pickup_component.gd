@@ -62,7 +62,7 @@ func _input(event):
 		if _hovered_hold_component: # If hovering over a hold component.
 			Global.mouse.is_holding_entity = false
 			_held_state = HoldState.ENTITY
-			print(_parent.name + " Is held by entity")
+			print(_parent.name + " Is held by " + _hovered_hold_component.get_parent().name)
 		else:
 			Global.mouse.is_holding_entity = false
 			_held_state = HoldState.NOT_HELD
@@ -71,7 +71,7 @@ func _input(event):
 
 #-------------------------------------------------------------------------------
 func _on_area_entered(area):
-	if area.is_in_group("hold_entity_component"):
+	if area.is_in_group("hold_entity_component") and area.get_parent() != _parent:
 		# If the previous hovered is not a minion and the new hovered is a minion, don't overwrite.
 		if _hovered_hold_component \
 				and area.get_parent().is_in_group("minion") \
