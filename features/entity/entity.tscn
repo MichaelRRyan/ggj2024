@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://c1q10vduv63ji"]
+[gd_scene load_steps=6 format=3 uid="uid://c1q10vduv63ji"]
 
 [ext_resource type="Texture2D" uid="uid://da4qjah5rn2oc" path="res://icon.svg" id="1_lubb1"]
+[ext_resource type="Script" path="res://features/entity/entity.gd" id="1_mv7t8"]
 [ext_resource type="Script" path="res://features/entity_pickup/pickup_component.gd" id="2_kmm32"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yb0ci"]
@@ -9,6 +10,8 @@
 radius = 11.0
 
 [node name="Entity" type="CharacterBody2D"]
+collision_layer = 2
+script = ExtResource("1_mv7t8")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.15625, 0.15625)
