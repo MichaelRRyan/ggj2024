@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://co6ni4jkxlusy"]
+[gd_scene load_steps=6 format=3 uid="uid://co6ni4jkxlusy"]
 
 [ext_resource type="Script" path="res://Characters/basic-minion.gd" id="1_gve4a"]
 [ext_resource type="Texture2D" uid="uid://da4qjah5rn2oc" path="res://icon.svg" id="2_s4ui1"]
+[ext_resource type="Script" path="res://Characters/TimerIdle.gd" id="3_buowj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w3pcn"]
 size = Vector2(128, 128)
@@ -26,7 +27,8 @@ collision_mask = 2
 shape = SubResource("RectangleShape2D_ruxlq")
 
 [node name="TimerIdle" type="Timer" parent="."]
-autostart = true
+script = ExtResource("3_buowj")
 
 [connection signal="body_entered" from="View" to="." method="_on_view_body_entered"]
 [connection signal="timeout" from="TimerIdle" to="." method="_on_timer_idle_timeout"]
+[connection signal="timeout" from="TimerIdle" to="TimerIdle" method="_on_timeout"]
