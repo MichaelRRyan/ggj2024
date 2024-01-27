@@ -40,4 +40,4 @@ position = Vector2(-59, -172)
 position = Vector2(77, -47)
 
 [node name="tree" parent="." instance=ExtResource("7_0y3i6")]
-position = Vector2(219, -13)
+position = Vector2(209, -58)

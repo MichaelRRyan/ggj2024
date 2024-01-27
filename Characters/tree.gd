@@ -9,5 +9,8 @@ func chop():
 	spawn_resource()
 
 func spawn_resource():
-	var resource_instance : Entity = resource_type.instantiate() as Entity
-	level_parent.add_child(resource_instance)
+	for n in 3:
+		var resource_instance : Entity = resource_type.instantiate() as Entity
+		level_parent.add_child(resource_instance)
+		resource_instance.position = position
+		resource_instance.position.y -= 30 * n

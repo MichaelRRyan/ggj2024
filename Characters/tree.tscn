@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://d0evc57fmifxm" path="res://features/entity/resources/resource.tscn" id="2_fhel1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jx5g1"]
+size = Vector2(30, 114)
 
 [node name="tree" type="StaticBody2D" groups=["tree"]]
 collision_layer = 2
@@ -15,5 +16,5 @@ resource_type = ExtResource("2_fhel1")
 shape = SubResource("RectangleShape2D_jx5g1")
 
 [node name="Sprite2D" type="Sprite2D" parent="." groups=["tree"]]
-scale = Vector2(0.2, 0.2)
+scale = Vector2(0.237, 0.9)
 texture = ExtResource("1_4ffar")
