@@ -402,8 +402,8 @@ value = 1.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="9"]
 sprite_frames = SubResource("SpriteFrames_so6kw")
-animation = &"Walk"
-frame_progress = 0.233553
+animation = &"Fall"
+frame_progress = 0.92832
 
 [connection signal="body_entered" from="View" to="." method="_on_view_body_entered"]
 [connection signal="body_entered" from="InteractRange" to="." method="_on_interact_range_body_entered"]

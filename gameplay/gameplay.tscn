@@ -1,8 +1,8 @@
 [gd_scene load_steps=11 format=3 uid="uid://coiak86a6j23m"]
 
 [ext_resource type="PackedScene" uid="uid://cw4bt3vwparv0" path="res://features/terrain/terrain.tscn" id="1_w7dwa"]
-[ext_resource type="Texture2D" uid="uid://n0528l5ksxks" path="res://assets/images/backgrounds/placeholder_background1.png" id="2_be6do"]
-[ext_resource type="Texture2D" uid="uid://bt5kkv3yt2tko" path="res://assets/images/backgrounds/placeholder_background2.png" id="3_q37f8"]
+[ext_resource type="Texture2D" uid="uid://poyxry4rbke2" path="res://assets/images/backgrounds/clouds.png" id="2_3ruyh"]
+[ext_resource type="Texture2D" uid="uid://bxvig7kypnr5c" path="res://assets/images/backgrounds/sky.png" id="3_eb3fm"]
 [ext_resource type="PackedScene" uid="uid://b1fcgkgk1wywa" path="res://features/entity/tools/tool.tscn" id="5_ay17o"]
 [ext_resource type="PackedScene" uid="uid://b7u5ttuukuhdx" path="res://features/entity/minion.tscn" id="6_jtv3i"]
 [ext_resource type="Script" path="res://gameplay/kill_area.gd" id="6_uc1pn"]
@@ -18,6 +18,7 @@ size = Vector2(234, 2074)
 [node name="Gameplay" type="Node2D"]
 
 [node name="Terrain" parent="." instance=ExtResource("1_w7dwa")]
+position = Vector2(0, 0)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(193, -76)
@@ -28,14 +29,14 @@ z_index = -9
 texture_filter = 1
 position = Vector2(300, -74)
 scale = Vector2(2.065, 2.065)
-texture = ExtResource("2_be6do")
+texture = ExtResource("2_3ruyh")
 
 [node name="Background2" type="Sprite2D" parent="."]
 z_index = -10
 texture_filter = 1
 position = Vector2(300, -74)
 scale = Vector2(2.065, 2.065)
-texture = ExtResource("3_q37f8")
+texture = ExtResource("3_eb3fm")
 
 [node name="Tool" parent="." instance=ExtResource("5_ay17o")]
 position = Vector2(157, -96)
