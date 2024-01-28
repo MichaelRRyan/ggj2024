@@ -342,6 +342,7 @@ health = 10.0
 max_health = 10.0
 _fall_dmg_thershold = 200.0
 _fall_dmg_ratio = 0.01
+has_axe = false
 
 [node name="Sprite2D" parent="." index="0"]
 texture = ExtResource("4_ol4be")

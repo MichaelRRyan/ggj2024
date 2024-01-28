@@ -10,12 +10,12 @@ signal died
 @export var max_health : float = 10
 @export var _fall_dmg_thershold : float = 200.0
 @export var _fall_dmg_ratio : float = 0.01
+@export var has_axe : bool
 var _prev_velocity := Vector2.ZERO
 var _prev_is_on_floor = false
 var target
 var is_interacting : bool = false
 var has_task : bool = false
-var has_axe : bool = false
 var is_moving : bool = true
 var has_target : bool
 var target_x : float = 0.0
@@ -76,12 +76,13 @@ func _physics_process(delta):
 
 func _on_view_body_entered(body):
 	if not is_interacting:
-		if body.is_in_group("tree"):
-			target = body
-			has_target = true
-			has_task = true
-			target_x = target.get_global_position().x
-			print(target_x)
+		if has_axe:
+			if body.is_in_group("tree"):
+				target = body
+				has_target = true
+				has_task = true
+				target_x = target.get_global_position().x
+				print(target_x)
 
 
 func _on_timer_idle_timeout():
