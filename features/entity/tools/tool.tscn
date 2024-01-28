@@ -1,19 +1,25 @@
-[gd_scene load_steps=4 format=3 uid="uid://b1fcgkgk1wywa"]
+[gd_scene load_steps=5 format=3 uid="uid://b1fcgkgk1wywa"]
 
 [ext_resource type="PackedScene" uid="uid://c1q10vduv63ji" path="res://features/entity/entity.tscn" id="1_a5uhc"]
+[ext_resource type="Texture2D" uid="uid://bxdeaksfb03hm" path="res://assets/images/Other/Tools.png" id="2_8fx5e"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gh6p3"]
 size = Vector2(16, 6)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0io3i"]
-radius = 4.0
-height = 18.0
+radius = 8.0
+height = 20.0
 
 [node name="Tool" instance=ExtResource("1_a5uhc")]
 z_index = 10
+_type = 2
 
 [node name="Sprite2D" parent="." index="0"]
-scale = Vector2(0.125, 0.046875)
+position = Vector2(0, -0.582031)
+scale = Vector2(1, 1)
+texture = ExtResource("2_8fx5e")
+region_enabled = true
+region_rect = Rect2(0, 0, 17, 7)
 
 [node name="CollisionShape2D" parent="." index="1"]
 shape = SubResource("RectangleShape2D_gh6p3")

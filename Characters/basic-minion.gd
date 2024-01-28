@@ -37,6 +37,7 @@ var view_array
 @onready var harvest_timer = $TimerHarvest
 
 @onready var _pickup_component : PickupComponent = get_node("PickupComponent")
+@onready var _animated_sprite : AnimatedSprite2D = get_node("AnimatedSprite2D")
 
 
 func _ready():
@@ -48,10 +49,13 @@ func _ready():
 func _physics_process(delta):
 	var direction = 0
 	if is_on_floor():
+		# Apply air friction
+		velocity.x *= _ground_friction
+		
+		# Take fall damage on ground impact.
 		if not _prev_is_on_floor and _prev_velocity.y >= _fall_dmg_thershold:
 			take_damage((_prev_velocity.y - _fall_dmg_thershold) * _fall_dmg_ratio)
 			print(_prev_velocity)
-		velocity.x *= _ground_friction
 		
 		if not has_target && not is_interacting && not has_target:
 			get_view_array()
@@ -84,22 +88,34 @@ func _physics_process(delta):
 				direction = -1
 		else:
 			direction = 0
-
+		
+		# Move randomly if no target.
 		if has_task && not has_target && not is_interacting:
 			if random_number >= 0.0:
 				direction = 1
 			else:
 				direction = -1
 		
+		# Play ground movement animations.
+		if direction != 0:
+			if has_axe:
+				_animated_sprite.play("Walk_Axe")
+			else:
+				_animated_sprite.play("Walk")
+			
+			_animated_sprite.flip_h = direction < 0
+		else:
+			if has_axe:
+				_animated_sprite.play("Idle_Axe")
+			else:
+				_animated_sprite.play("Idle")
 	else:
 		velocity.y += gravity * delta
 		velocity.x *= _air_friction
-			
-	if direction != 0:
-		$AnimatedSprite2D.play("Walk")
-		$AnimatedSprite2D.flip_h = direction < 0
-	else:
-		$AnimatedSprite2D.play("Idle")
+		if has_axe:
+			_animated_sprite.play("Limp_Axe")
+		else:
+			_animated_sprite.play("Limp")
 		
 	if _pickup_component == null or not _pickup_component.is_held():
 		velocity.x = clamp(velocity.x + direction * acceleration * delta, -speed, speed)
@@ -191,3 +207,12 @@ func _die():
 	print(name + " has died.")
 	emit_signal("died", name)
 	queue_free()
+
+func _on_hold_entity_component_entity_held(entity_type):
+	if entity_type == EntityType.TOOL:
+		has_axe = true
+
+
+func _on_hold_entity_component_entity_dropped(entity_type):
+	if entity_type == EntityType.TOOL:
+		has_axe = false
