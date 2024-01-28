@@ -83,3 +83,8 @@ func _on_area_exited(area):
 		_hovered_hold_component = null
 
 #-------------------------------------------------------------------------------
+func _on_tree_exiting():
+	if _is_held:
+		Global.mouse.is_holding_entity = false
+
+#-------------------------------------------------------------------------------
