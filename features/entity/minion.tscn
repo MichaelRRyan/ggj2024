@@ -345,6 +345,7 @@ health = 10.0
 max_health = 10.0
 _fall_dmg_thershold = 200.0
 _fall_dmg_ratio = 0.01
+_type = 1
 
 [node name="Sprite2D" parent="." index="0"]
 texture = ExtResource("4_ol4be")
@@ -417,10 +418,12 @@ value = 1.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="10"]
 sprite_frames = SubResource("SpriteFrames_so6kw")
-animation = &"Walk"
-frame_progress = 0.233553
+animation = &"Limp"
 
 [connection signal="tree_exiting" from="PickupComponent" to="PickupComponent" method="_on_tree_exiting"]
+[connection signal="entity_dropped" from="HoldEntityComponent" to="." method="_on_hold_entity_component_entity_dropped"]
+[connection signal="entity_held" from="HoldEntityComponent" to="." method="_on_hold_entity_component_entity_held"]
+[connection signal="tree_exiting" from="HoldEntityComponent" to="HoldEntityComponent" method="_on_tree_exiting"]
 [connection signal="body_entered" from="View" to="." method="_on_view_body_entered"]
 [connection signal="body_entered" from="InteractRange" to="." method="_on_interact_range_body_entered"]
 [connection signal="timeout" from="TimerIdle" to="." method="_on_timer_idle_timeout"]
