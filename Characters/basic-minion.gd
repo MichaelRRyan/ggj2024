@@ -108,23 +108,6 @@ func _physics_process(delta):
 	_prev_is_on_floor = is_on_floor()
 	move_and_slide()
 
-#func _on_view_body_entered(body):
-	#if not has_target:
-		#if has_axe:
-			#if body.is_in_group("tree"):
-				#target = body
-				#has_target = true
-				#has_task = true
-				#target_x = target.get_global_position().x
-				##print(target_x)
-		#if has_hammer:
-			#if body.is_in_group("resource"):
-				#target = body
-				#has_target = true
-				#has_task = true
-				#target_x = target.get_global_position().x
-				##print(target_x)
-
 
 func _on_timer_idle_timeout():
 	if not has_target:
