@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=3 uid="uid://b7u5ttuukuhdx"]
+[gd_scene load_steps=57 format=3 uid="uid://b7u5ttuukuhdx"]
 
 [ext_resource type="PackedScene" uid="uid://c1q10vduv63ji" path="res://features/entity/entity.tscn" id="1_cjd4a"]
 [ext_resource type="Script" path="res://Characters/basic-minion.gd" id="2_3qkd6"]

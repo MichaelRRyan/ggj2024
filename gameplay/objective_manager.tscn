@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://cepw8oo3tg3qt"]
+[gd_scene load_steps=3 format=3 uid="uid://di17xqtykg7p"]
 
 [ext_resource type="Script" path="res://gameplay/objective_manager.gd" id="1_juh3q"]
 [ext_resource type="PackedScene" uid="uid://ctodlsmys130x" path="res://features/ui_screens/game_over_screen/game_over_screen.tscn" id="2_fh3dl"]
