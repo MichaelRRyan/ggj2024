@@ -16,7 +16,7 @@ radius = 14.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e5ycy"]
 size = Vector2(1617.5, 1449.5)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_06mgl"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ddud3"]
 size = Vector2(32, 44)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kcdhf"]
@@ -434,6 +434,7 @@ collision_layer = 0
 collision_mask = 6
 
 [node name="ViewCollisionShape2D" type="CollisionShape2D" parent="View" index="0"]
+visible = false
 shape = SubResource("RectangleShape2D_e5ycy")
 
 [node name="InteractRange" type="Area2D" parent="." index="5"]
@@ -441,7 +442,7 @@ collision_layer = 0
 collision_mask = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractRange" index="0"]
-shape = SubResource("RectangleShape2D_06mgl")
+shape = SubResource("RectangleShape2D_ddud3")
 
 [node name="TimerIdle" type="Timer" parent="." index="6"]
 script = ExtResource("5_xjedm")
@@ -481,7 +482,7 @@ value = 1.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="10"]
 sprite_frames = SubResource("SpriteFrames_so6kw")
-animation = &"Limp_Axe"
+animation = &"Swing_Axe"
 
 [connection signal="tree_exiting" from="PickupComponent" to="PickupComponent" method="_on_tree_exiting"]
 [connection signal="entity_dropped" from="HoldEntityComponent" to="." method="_on_hold_entity_component_entity_dropped"]

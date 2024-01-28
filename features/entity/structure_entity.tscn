@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://gd4125fbky4p"]
 
-[ext_resource type="Texture2D" uid="uid://da4qjah5rn2oc" path="res://icon.svg" id="1_swiie"]
 [ext_resource type="Script" path="res://features/entity/entity.gd" id="1_vkwby"]
+[ext_resource type="Texture2D" uid="uid://c3iik7jll68ve" path="res://assets/images/Other/House.png" id="2_y6f0i"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2gkkr"]
 size = Vector2(128, 128)
@@ -16,4 +16,6 @@ script = ExtResource("1_vkwby")
 shape = SubResource("RectangleShape2D_2gkkr")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_swiie")
+z_index = -5
+scale = Vector2(1.875, 2)
+texture = ExtResource("2_y6f0i")

@@ -63,6 +63,7 @@ func _physics_process(delta):
 				if has_axe:
 					if view_array[n].is_in_group("tree"):
 						target = view_array[n]
+						target.connect("tree_exiting", target_exited)
 						has_target = true
 						has_task = true
 						target_x = view_array[n].get_global_position().x
@@ -75,6 +76,8 @@ func _physics_process(delta):
 							has_task = true
 							target_x = view_array[n].get_global_position().x
 							target = view_array[n]
+							target.connect("tree_exiting", target_exited)
+							
 							
 				
 		
@@ -106,7 +109,10 @@ func _physics_process(delta):
 			_animated_sprite.flip_h = direction < 0
 		else:
 			if has_axe:
-				_animated_sprite.play("Idle_Axe")
+				if is_interacting:
+					_animated_sprite.play("Swing_Axe")
+				else:
+					_animated_sprite.play("Idle_Axe")
 			else:
 				_animated_sprite.play("Idle")
 	else:
@@ -125,6 +131,9 @@ func _physics_process(delta):
 	move_and_slide()
 
 
+func target_exited():
+	target = null
+
 func _on_timer_idle_timeout():
 	if not has_target:
 		if not is_interacting:
@@ -134,12 +143,12 @@ func _on_timer_idle_timeout():
 
 func _on_interact_range_body_entered(_body):
 	if has_target:
-		if target.is_in_group("tree"):
+		if target and target.is_in_group("tree") and _body == target:
 			has_target = false
 			is_interacting = true
 			has_task = true
 			harvest_timer.start(3)
-		if target.is_in_group("resource"):
+		if target and target.is_in_group("resource") and _body == target:
 			has_target = false
 			is_interacting = true
 			has_task = true

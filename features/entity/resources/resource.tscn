@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://c0jk0xwfft5t3"]
+[gd_scene load_steps=4 format=3 uid="uid://c0jk0xwfft5t3"]
 
 [ext_resource type="PackedScene" uid="uid://c1q10vduv63ji" path="res://features/entity/entity.tscn" id="1_q05j6"]
+[ext_resource type="Texture2D" uid="uid://3xwwirayv6k" path="res://assets/images/Other/Wood.png" id="2_pglfn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tt3xr"]
 size = Vector2(12, 16)
@@ -9,7 +10,8 @@ size = Vector2(12, 16)
 collision_layer = 4
 
 [node name="Sprite2D" parent="." index="0"]
-scale = Vector2(0.09375, 0.125)
+scale = Vector2(1.011, 1.011)
+texture = ExtResource("2_pglfn")
 
 [node name="CollisionShape2D" parent="." index="1"]
 shape = SubResource("RectangleShape2D_tt3xr")
