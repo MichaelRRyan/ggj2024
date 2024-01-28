@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://b1fcgkgk1wywa" path="res://features/entity/tools/tool.tscn" id="5_ay17o"]
 [ext_resource type="PackedScene" uid="uid://b7u5ttuukuhdx" path="res://features/entity/minion.tscn" id="6_jtv3i"]
 [ext_resource type="Script" path="res://gameplay/kill_area.gd" id="6_uc1pn"]
-[ext_resource type="PackedScene" path="res://gameplay/objective_manager.tscn" id="7_cj0x0"]
+[ext_resource type="PackedScene" uid="uid://di17xqtykg7p" path="res://gameplay/objective_manager.tscn" id="7_cj0x0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f1gx5"]
 size = Vector2(17811, 158)
