@@ -4,6 +4,8 @@ var _num_minions = 0
 var _ui : CanvasLayer = null
 var _game_over_screen : Control = null
 
+var DeathNotice = preload("res://features/ui_screens/death_notice/death_notice.tscn")
+
 
 func _ready():
 	# Get all minions, count number, connect death signal.
@@ -23,7 +25,11 @@ func _ready():
 		_game_over_screen.connect("restart_pressed", _restart_game)
 
 
-func _minion_died():
+func _minion_died(minion_name : String):
+	var notice = DeathNotice.instantiate()
+	$UI/Alerts.add_child(notice)
+	notice.set_message(minion_name)
+	
 	_num_minions -= 1
 	if _num_minions <= 0:
 		print("Lost game")

@@ -1,10 +1,13 @@
-[gd_scene load_steps=49 format=3 uid="uid://b7u5ttuukuhdx"]
+[gd_scene load_steps=50 format=3 uid="uid://b7u5ttuukuhdx"]
 
 [ext_resource type="PackedScene" uid="uid://c1q10vduv63ji" path="res://features/entity/entity.tscn" id="1_cjd4a"]
 [ext_resource type="Script" path="res://Characters/basic-minion.gd" id="2_3qkd6"]
 [ext_resource type="Script" path="res://features/hold_entity/hold_entity_component.gd" id="4_26n4l"]
 [ext_resource type="Texture2D" uid="uid://detl8fqbkd1qb" path="res://assets/images/animations/MinionSpritesheet.png" id="4_ol4be"]
 [ext_resource type="Script" path="res://Characters/TimerIdle.gd" id="5_xjedm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jfxre"]
+size = Vector2(12, 29)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_b7och"]
 radius = 14.0
@@ -349,10 +352,11 @@ hframes = 7
 vframes = 10
 
 [node name="CollisionShape2D" parent="." index="1"]
-position = Vector2(0, -1)
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_jfxre")
 
 [node name="CollisionShape2D" parent="PickupComponent" index="0"]
-position = Vector2(0, -1.36)
+position = Vector2(0, -2.36)
 
 [node name="HoldEntityComponent" type="Area2D" parent="." index="3" groups=["hold_entity_component"]]
 script = ExtResource("4_26n4l")
@@ -380,7 +384,18 @@ script = ExtResource("5_xjedm")
 
 [node name="TimerHarvest" type="Timer" parent="." index="7"]
 
-[node name="HealthBar" type="ProgressBar" parent="." index="8"]
+[node name="NameTag" type="Label" parent="." index="8"]
+offset_left = -32.0
+offset_top = -37.0
+offset_right = 376.0
+offset_bottom = 26.0
+scale = Vector2(0.16, 0.16)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 45
+text = "Michael"
+horizontal_alignment = 1
+
+[node name="HealthBar" type="ProgressBar" parent="." index="9"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -400,11 +415,12 @@ max_value = 1.0
 step = 0.0
 value = 1.0
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="9"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="10"]
 sprite_frames = SubResource("SpriteFrames_so6kw")
 animation = &"Walk"
 frame_progress = 0.233553
 
+[connection signal="tree_exiting" from="PickupComponent" to="PickupComponent" method="_on_tree_exiting"]
 [connection signal="body_entered" from="View" to="." method="_on_view_body_entered"]
 [connection signal="body_entered" from="InteractRange" to="." method="_on_interact_range_body_entered"]
 [connection signal="timeout" from="TimerIdle" to="." method="_on_timer_idle_timeout"]
