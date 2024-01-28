@@ -1,0 +1,57 @@
+[gd_scene load_steps=5 format=3 uid="uid://jmdm5f1q3twr"]
+
+[ext_resource type="Script" path="res://features/ui_screens/death_notice/death_notice.gd" id="1_cynti"]
+
+[sub_resource type="Animation" id="Animation_jpfiq"]
+resource_name = "appear_and_fade"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3, 4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_eko1r"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_oliox"]
+_data = {
+"RESET": SubResource("Animation_eko1r"),
+"appear_and_fade": SubResource("Animation_jpfiq")
+}
+
+[node name="DeathNotice" type="Label"]
+modulate = Color(1, 1, 1, 0)
+theme_override_colors/font_color = Color(1, 0.592157, 0.45098, 1)
+theme_override_colors/font_outline_color = Color(0.462745, 0.192157, 0.0509804, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 20
+text = "Michael died"
+horizontal_alignment = 2
+script = ExtResource("1_cynti")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_oliox")
+}
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
