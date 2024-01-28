@@ -41,17 +41,6 @@ texture = ExtResource("3_q37f8")
 [node name="Tool" parent="." instance=ExtResource("5_ay17o")]
 position = Vector2(157, -96)
 
-[node name="Minion" parent="." instance=ExtResource("6_jtv3i")]
-position = Vector2(-42, -128)
-has_hammer = true
-
-[node name="Minion2" parent="." instance=ExtResource("6_jtv3i")]
-position = Vector2(-122, -135)
-has_axe = true
-
-[node name="Minion3" parent="." instance=ExtResource("6_jtv3i")]
-position = Vector2(84, -18)
-
 [node name="KillArea" type="Area2D" parent="."]
 position = Vector2(0, 200)
 collision_mask = 2
@@ -88,5 +77,16 @@ position = Vector2(212, -13)
 
 [node name="tree2" parent="." instance=ExtResource("10_tuqad")]
 position = Vector2(177, -13)
+
+[node name="Minion" parent="." instance=ExtResource("6_jtv3i")]
+position = Vector2(-33, -138)
+has_axe = true
+
+[node name="Minion2" parent="." instance=ExtResource("6_jtv3i")]
+position = Vector2(-115, -142)
+has_hammer = true
+
+[node name="Minion3" parent="." instance=ExtResource("6_jtv3i")]
+position = Vector2(56, -28)
 
 [connection signal="body_entered" from="KillArea" to="KillArea" method="_on_body_entered"]

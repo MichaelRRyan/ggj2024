@@ -16,6 +16,8 @@ signal died
 @onready var level_parent = get_parent()
 var target_array = Array()
 var target_array_counter : int = 0
+var interact_array = Array()
+var interact_array_counter : int = 0
 var _prev_velocity := Vector2.ZERO
 var _prev_is_on_floor = false
 var target
@@ -30,6 +32,7 @@ var random_number = 0.0
 
 var view_array
 @onready var view_area = $View
+@onready var interact_area = $InteractRange
 
 @onready var harvest_timer = $TimerHarvest
 
@@ -57,7 +60,7 @@ func _physics_process(delta):
 						target = view_array[n]
 						has_target = true
 						has_task = true
-						target_x = target.get_global_position().x
+						target_x = view_array[n].get_global_position().x
 				if has_hammer:
 					if view_array[n].is_in_group("resource"):
 						target_array.append(view_array[n])
@@ -67,11 +70,14 @@ func _physics_process(delta):
 							has_task = true
 							target_x = view_array[n].get_global_position().x
 							target = view_array[n]
+							
 				
 		
 		if has_target && not is_interacting:
 			target_x_diff = get_global_position().x - target_x
-			if target_x_diff < 0.0:
+			print(target_x_diff)
+			print(is_interacting)
+			if target_x_diff <= 0.0:
 				direction = 1
 			else:
 				direction = -1
@@ -178,13 +184,17 @@ func reset_bools():
 func get_view_array():
 	view_array = view_area.get_overlapping_bodies()
 	pass
+	
+func get_interact_array():
+	interact_array = interact_area.get_overlapping_bodies()
+	pass
 
 func build_structure():
 	var structure_instance : Entity = build_type.instantiate() as Entity
 	level_parent.add_child(structure_instance)
 	structure_instance.position = position
 	structure_instance.position.y -= 50
-	structure_instance.position.x += random_number * 10
+	#structure_instance.position.x += random_number * 10
 	pass
 
 func take_damage(amount : float):
