@@ -12,6 +12,10 @@ signal died
 @export var _fall_dmg_ratio : float = 0.01
 @export var has_axe : bool
 @export var has_hammer : bool
+@export var build_type : PackedScene
+@onready var level_parent = get_parent()
+var target_array = Array()
+var target_array_counter : int = 0
 var _prev_velocity := Vector2.ZERO
 var _prev_is_on_floor = false
 var target
@@ -56,10 +60,13 @@ func _physics_process(delta):
 						target_x = target.get_global_position().x
 				if has_hammer:
 					if view_array[n].is_in_group("resource"):
-						target = view_array[n]
-						has_target = true
-						has_task = true
-						target_x = target.get_global_position().x
+						target_array.append(view_array[n])
+						target_array_counter += 1
+						if target_array.size() >= 3:
+							has_target = true
+							has_task = true
+							target_x = view_array[n].get_global_position().x
+							target = view_array[n]
 				
 		
 		if has_target && not is_interacting:
@@ -94,22 +101,22 @@ func _physics_process(delta):
 	_prev_is_on_floor = is_on_floor()
 	move_and_slide()
 
-func _on_view_body_entered(body):
-	if not has_target:
-		if has_axe:
-			if body.is_in_group("tree"):
-				target = body
-				has_target = true
-				has_task = true
-				target_x = target.get_global_position().x
-				#print(target_x)
-		if has_hammer:
-			if body.is_in_group("resource"):
-				target = body
-				has_target = true
-				has_task = true
-				target_x = target.get_global_position().x
-				#print(target_x)
+#func _on_view_body_entered(body):
+	#if not has_target:
+		#if has_axe:
+			#if body.is_in_group("tree"):
+				#target = body
+				#has_target = true
+				#has_task = true
+				#target_x = target.get_global_position().x
+				##print(target_x)
+		#if has_hammer:
+			#if body.is_in_group("resource"):
+				#target = body
+				#has_target = true
+				#has_task = true
+				#target_x = target.get_global_position().x
+				##print(target_x)
 
 
 func _on_timer_idle_timeout():
@@ -145,13 +152,16 @@ func _on_timer_harvest_timeout():
 		target = null
 		reset_bools()
 	elif target != null && target.is_in_group("resource"):
-		target.queue_free()
+		for n in target_array.size():
+			target_array[n].queue_free()
 		harvest_timer.stop()
 		is_interacting = false
 		has_task = false
 		has_target = false
 		target = null
+		build_structure()
 		reset_bools()
+		target_array = []
 	else:
 		harvest_timer.stop()
 		is_interacting = false
@@ -167,6 +177,14 @@ func reset_bools():
 
 func get_view_array():
 	view_array = view_area.get_overlapping_bodies()
+	pass
+
+func build_structure():
+	var structure_instance : Entity = build_type.instantiate() as Entity
+	level_parent.add_child(structure_instance)
+	structure_instance.position = position
+	structure_instance.position.y -= 50
+	structure_instance.position.x += random_number * 10
 	pass
 
 func take_damage(amount : float):

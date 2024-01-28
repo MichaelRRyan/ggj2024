@@ -17,7 +17,7 @@ radius = 14.0
 size = Vector2(1617.5, 1449.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2luo6"]
-size = Vector2(32, 44)
+size = Vector2(210.25, 187.75)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kcdhf"]
 bg_color = Color(0.929412, 0.419608, 0.372549, 1)
@@ -374,6 +374,7 @@ collision_layer = 0
 collision_mask = 6
 
 [node name="ViewCollisionShape2D" type="CollisionShape2D" parent="View" index="0"]
+visible = false
 shape = SubResource("RectangleShape2D_mo8om")
 
 [node name="InteractRange" type="Area2D" parent="." index="5"]
@@ -381,6 +382,7 @@ collision_layer = 0
 collision_mask = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractRange" index="0"]
+visible = false
 shape = SubResource("RectangleShape2D_2luo6")
 
 [node name="TimerIdle" type="Timer" parent="." index="6"]
