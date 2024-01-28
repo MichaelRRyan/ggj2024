@@ -1,12 +1,13 @@
-[gd_scene load_steps=10 format=3 uid="uid://coiak86a6j23m"]
+[gd_scene load_steps=11 format=3 uid="uid://coiak86a6j23m"]
 
 [ext_resource type="PackedScene" uid="uid://cw4bt3vwparv0" path="res://features/terrain/terrain.tscn" id="1_w7dwa"]
-[ext_resource type="Texture2D" uid="uid://poyxry4rbke2" path="res://assets/images/backgrounds/clouds.png" id="2_3ruyh"]
-[ext_resource type="Texture2D" uid="uid://bxvig7kypnr5c" path="res://assets/images/backgrounds/sky.png" id="3_eb3fm"]
+[ext_resource type="Texture2D" path="res://assets/images/backgrounds/clouds.png" id="2_3ruyh"]
+[ext_resource type="Texture2D" path="res://assets/images/backgrounds/sky.png" id="3_eb3fm"]
 [ext_resource type="PackedScene" uid="uid://b1fcgkgk1wywa" path="res://features/entity/tools/tool.tscn" id="5_ay17o"]
 [ext_resource type="PackedScene" uid="uid://b7u5ttuukuhdx" path="res://features/entity/minion.tscn" id="6_jtv3i"]
 [ext_resource type="Script" path="res://gameplay/kill_area.gd" id="6_uc1pn"]
-[ext_resource type="PackedScene" uid="uid://di17xqtykg7p" path="res://gameplay/objective_manager.tscn" id="7_cj0x0"]
+[ext_resource type="PackedScene" uid="uid://bal1dnmt1mgeg" path="res://gameplay/objective_manager.tscn" id="7_cj0x0"]
+[ext_resource type="PackedScene" uid="uid://c0ierwhaepa5j" path="res://Characters/tree.tscn" id="10_tuqad"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f1gx5"]
 size = Vector2(17811, 158)
@@ -40,15 +41,6 @@ texture = ExtResource("3_eb3fm")
 [node name="Tool" parent="." instance=ExtResource("5_ay17o")]
 position = Vector2(157, -96)
 
-[node name="Minion" parent="." instance=ExtResource("6_jtv3i")]
-position = Vector2(-42, -128)
-
-[node name="Minion2" parent="." instance=ExtResource("6_jtv3i")]
-position = Vector2(-122, -135)
-
-[node name="Minion3" parent="." instance=ExtResource("6_jtv3i")]
-position = Vector2(84, -18)
-
 [node name="KillArea" type="Area2D" parent="."]
 position = Vector2(0, 200)
 collision_mask = 2
@@ -73,5 +65,20 @@ position = Vector2(-107, -740)
 shape = SubResource("RectangleShape2D_llhst")
 
 [node name="ObjectiveManager" parent="." instance=ExtResource("7_cj0x0")]
+
+[node name="tree" parent="." instance=ExtResource("10_tuqad")]
+position = Vector2(212, -13)
+
+[node name="tree2" parent="." instance=ExtResource("10_tuqad")]
+position = Vector2(177, -13)
+
+[node name="Minion" parent="." instance=ExtResource("6_jtv3i")]
+position = Vector2(-33, -138)
+
+[node name="Minion2" parent="." instance=ExtResource("6_jtv3i")]
+position = Vector2(-115, -142)
+
+[node name="Minion3" parent="." instance=ExtResource("6_jtv3i")]
+position = Vector2(56, -28)
 
 [connection signal="body_entered" from="KillArea" to="KillArea" method="_on_body_entered"]
