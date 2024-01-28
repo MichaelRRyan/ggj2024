@@ -369,15 +369,14 @@ shape = SubResource("CircleShape2D_b7och")
 
 [node name="View" type="Area2D" parent="." index="4"]
 collision_layer = 0
-collision_mask = 6
+collision_mask = 2
 
 [node name="ViewCollisionShape2D" type="CollisionShape2D" parent="View" index="0"]
 visible = false
 shape = SubResource("RectangleShape2D_mo8om")
 
 [node name="InteractRange" type="Area2D" parent="." index="5"]
-collision_layer = 0
-collision_mask = 6
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractRange" index="0"]
 visible = false

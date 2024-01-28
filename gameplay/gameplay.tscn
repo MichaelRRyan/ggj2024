@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://coiak86a6j23m"]
+[gd_scene load_steps=12 format=3 uid="uid://coiak86a6j23m"]
 
 [ext_resource type="PackedScene" uid="uid://cw4bt3vwparv0" path="res://features/terrain/terrain.tscn" id="1_w7dwa"]
 [ext_resource type="Texture2D" uid="uid://n0528l5ksxks" path="res://assets/images/backgrounds/placeholder_background1.png" id="2_be6do"]
@@ -8,7 +8,6 @@
 [ext_resource type="Script" path="res://gameplay/kill_area.gd" id="6_uc1pn"]
 [ext_resource type="Script" path="res://gameplay/objective_manager.gd" id="7_60kk4"]
 [ext_resource type="PackedScene" uid="uid://ctodlsmys130x" path="res://features/ui_screens/game_over_screen/game_over_screen.tscn" id="8_k6qtp"]
-[ext_resource type="PackedScene" uid="uid://c0jk0xwfft5t3" path="res://features/entity/resources/resource.tscn" id="9_x8x4t"]
 [ext_resource type="PackedScene" uid="uid://c0ierwhaepa5j" path="res://Characters/tree.tscn" id="10_tuqad"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f1gx5"]
@@ -44,6 +43,7 @@ position = Vector2(157, -96)
 
 [node name="Minion" parent="." instance=ExtResource("6_jtv3i")]
 position = Vector2(-42, -128)
+has_hammer = true
 
 [node name="Minion2" parent="." instance=ExtResource("6_jtv3i")]
 position = Vector2(-122, -135)
@@ -83,10 +83,10 @@ script = ExtResource("7_60kk4")
 [node name="GameOverScreen" parent="UI" instance=ExtResource("8_k6qtp")]
 visible = false
 
-[node name="Resource" parent="." instance=ExtResource("9_x8x4t")]
-position = Vector2(180, -42)
-
 [node name="tree" parent="." instance=ExtResource("10_tuqad")]
 position = Vector2(212, -13)
+
+[node name="tree2" parent="." instance=ExtResource("10_tuqad")]
+position = Vector2(177, -13)
 
 [connection signal="body_entered" from="KillArea" to="KillArea" method="_on_body_entered"]
