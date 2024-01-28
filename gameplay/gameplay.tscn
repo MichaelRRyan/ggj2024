@@ -1,8 +1,8 @@
 [gd_scene load_steps=11 format=3 uid="uid://coiak86a6j23m"]
 
 [ext_resource type="PackedScene" uid="uid://cw4bt3vwparv0" path="res://features/terrain/terrain.tscn" id="1_w7dwa"]
-[ext_resource type="Texture2D" path="res://assets/images/backgrounds/clouds.png" id="2_3ruyh"]
-[ext_resource type="Texture2D" path="res://assets/images/backgrounds/sky.png" id="3_eb3fm"]
+[ext_resource type="Texture2D" uid="uid://poyxry4rbke2" path="res://assets/images/backgrounds/clouds.png" id="2_3ruyh"]
+[ext_resource type="Texture2D" uid="uid://bxvig7kypnr5c" path="res://assets/images/backgrounds/sky.png" id="3_eb3fm"]
 [ext_resource type="PackedScene" uid="uid://b1fcgkgk1wywa" path="res://features/entity/tools/tool.tscn" id="5_ay17o"]
 [ext_resource type="PackedScene" uid="uid://b7u5ttuukuhdx" path="res://features/entity/minion.tscn" id="6_jtv3i"]
 [ext_resource type="Script" path="res://gameplay/kill_area.gd" id="6_uc1pn"]
