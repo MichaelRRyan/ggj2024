@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://coiak86a6j23m"]
+[gd_scene load_steps=10 format=3 uid="uid://coiak86a6j23m"]
 
 [ext_resource type="PackedScene" uid="uid://cw4bt3vwparv0" path="res://features/terrain/terrain.tscn" id="1_w7dwa"]
 [ext_resource type="Texture2D" uid="uid://n0528l5ksxks" path="res://assets/images/backgrounds/placeholder_background1.png" id="2_be6do"]
@@ -6,8 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://b1fcgkgk1wywa" path="res://features/entity/tools/tool.tscn" id="5_ay17o"]
 [ext_resource type="PackedScene" uid="uid://b7u5ttuukuhdx" path="res://features/entity/minion.tscn" id="6_jtv3i"]
 [ext_resource type="Script" path="res://gameplay/kill_area.gd" id="6_uc1pn"]
-[ext_resource type="Script" path="res://gameplay/objective_manager.gd" id="7_60kk4"]
-[ext_resource type="PackedScene" uid="uid://ctodlsmys130x" path="res://features/ui_screens/game_over_screen/game_over_screen.tscn" id="8_k6qtp"]
+[ext_resource type="PackedScene" uid="uid://cepw8oo3tg3qt" path="res://gameplay/objective_manager.tscn" id="7_cj0x0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f1gx5"]
 size = Vector2(17811, 158)
@@ -72,12 +71,6 @@ position = Vector2(757, 5)
 position = Vector2(-107, -740)
 shape = SubResource("RectangleShape2D_llhst")
 
-[node name="ObjectiveManager" type="Node" parent="."]
-script = ExtResource("7_60kk4")
-
-[node name="UI" type="CanvasLayer" parent="." groups=["ui"]]
-
-[node name="GameOverScreen" parent="UI" instance=ExtResource("8_k6qtp")]
-visible = false
+[node name="ObjectiveManager" parent="." instance=ExtResource("7_cj0x0")]
 
 [connection signal="body_entered" from="KillArea" to="KillArea" method="_on_body_entered"]
