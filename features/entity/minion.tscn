@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=3 uid="uid://b7u5ttuukuhdx"]
+[gd_scene load_steps=56 format=3 uid="uid://b7u5ttuukuhdx"]
 
 [ext_resource type="PackedScene" uid="uid://c1q10vduv63ji" path="res://features/entity/entity.tscn" id="1_cjd4a"]
 [ext_resource type="Script" path="res://Characters/basic-minion.gd" id="2_3qkd6"]
@@ -52,6 +52,14 @@ region = Rect2(192, 96, 32, 32)
 [sub_resource type="AtlasTexture" id="AtlasTexture_klft0"]
 atlas = ExtResource("4_ol4be")
 region = Rect2(0, 160, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l63mx"]
+atlas = ExtResource("4_ol4be")
+region = Rect2(0, 160, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w5rxn"]
+atlas = ExtResource("4_ol4be")
+region = Rect2(32, 160, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mbdce"]
 atlas = ExtResource("4_ol4be")
@@ -220,10 +228,16 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_klft0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l63mx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w5rxn")
 }],
 "loop": true,
 "name": &"Fall",
-"speed": 5.0
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -447,8 +461,8 @@ value = 1.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="9"]
 sprite_frames = SubResource("SpriteFrames_so6kw")
-animation = &"Walk_Axe"
-frame_progress = 0.501257
+animation = &"Fall"
+frame_progress = 0.059497
 
 [connection signal="body_entered" from="View" to="." method="_on_view_body_entered"]
 [connection signal="body_entered" from="InteractRange" to="." method="_on_interact_range_body_entered"]
