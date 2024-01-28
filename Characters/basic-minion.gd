@@ -98,7 +98,11 @@ func _physics_process(delta):
 		
 		# Play ground movement animations.
 		if direction != 0:
-			_animated_sprite.play("Walk")
+			if has_axe:
+				_animated_sprite.play("Walk_Axe")
+			else:
+				_animated_sprite.play("Walk")
+			
 			_animated_sprite.flip_h = direction < 0
 		else:
 			if has_axe:
@@ -108,7 +112,10 @@ func _physics_process(delta):
 	else:
 		velocity.y += gravity * delta
 		velocity.x *= _air_friction
-		_animated_sprite.play("Limp")
+		if has_axe:
+			_animated_sprite.play("Limp_Axe")
+		else:
+			_animated_sprite.play("Limp")
 		
 	if _pickup_component == null or not _pickup_component.is_held():
 		velocity.x = clamp(velocity.x + direction * acceleration * delta, -speed, speed)

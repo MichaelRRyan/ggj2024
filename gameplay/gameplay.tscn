@@ -74,11 +74,9 @@ position = Vector2(177, -13)
 
 [node name="Minion" parent="." instance=ExtResource("6_jtv3i")]
 position = Vector2(-33, -138)
-has_axe = true
 
 [node name="Minion2" parent="." instance=ExtResource("6_jtv3i")]
 position = Vector2(-115, -142)
-has_hammer = true
 
 [node name="Minion3" parent="." instance=ExtResource("6_jtv3i")]
 position = Vector2(56, -28)

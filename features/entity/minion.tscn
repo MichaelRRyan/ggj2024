@@ -481,7 +481,7 @@ value = 1.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="10"]
 sprite_frames = SubResource("SpriteFrames_so6kw")
-animation = &"Limp"
+animation = &"Limp_Axe"
 
 [connection signal="tree_exiting" from="PickupComponent" to="PickupComponent" method="_on_tree_exiting"]
 [connection signal="entity_dropped" from="HoldEntityComponent" to="." method="_on_hold_entity_component_entity_dropped"]
