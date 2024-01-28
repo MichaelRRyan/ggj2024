@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=3 uid="uid://b7u5ttuukuhdx"]
+[gd_scene load_steps=58 format=3 uid="uid://b7u5ttuukuhdx"]
 
 [ext_resource type="PackedScene" uid="uid://c1q10vduv63ji" path="res://features/entity/entity.tscn" id="1_cjd4a"]
 [ext_resource type="Script" path="res://Characters/basic-minion.gd" id="2_3qkd6"]
@@ -57,6 +57,14 @@ region = Rect2(192, 96, 32, 32)
 atlas = ExtResource("4_ol4be")
 region = Rect2(0, 160, 32, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_l63mx"]
+atlas = ExtResource("4_ol4be")
+region = Rect2(0, 160, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w5rxn"]
+atlas = ExtResource("4_ol4be")
+region = Rect2(32, 160, 32, 32)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_mbdce"]
 atlas = ExtResource("4_ol4be")
 region = Rect2(0, 0, 32, 32)
@@ -96,6 +104,10 @@ region = Rect2(64, 224, 32, 32)
 [sub_resource type="AtlasTexture" id="AtlasTexture_1wchn"]
 atlas = ExtResource("4_ol4be")
 region = Rect2(0, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m14qe"]
+atlas = ExtResource("4_ol4be")
+region = Rect2(0, 352, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_152la"]
 atlas = ExtResource("4_ol4be")
@@ -173,6 +185,22 @@ region = Rect2(64, 32, 32, 32)
 atlas = ExtResource("4_ol4be")
 region = Rect2(96, 32, 32, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_qfyu5"]
+atlas = ExtResource("4_ol4be")
+region = Rect2(0, 320, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t4t1c"]
+atlas = ExtResource("4_ol4be")
+region = Rect2(32, 320, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4g03s"]
+atlas = ExtResource("4_ol4be")
+region = Rect2(64, 320, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gcwmy"]
+atlas = ExtResource("4_ol4be")
+region = Rect2(96, 320, 32, 32)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_so6kw"]
 animations = [{
 "frames": [{
@@ -204,10 +232,16 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_klft0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l63mx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w5rxn")
 }],
 "loop": true,
 "name": &"Fall",
-"speed": 5.0
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -257,6 +291,14 @@ animations = [{
 }],
 "loop": true,
 "name": &"Limp",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m14qe")
+}],
+"loop": true,
+"name": &"Limp_Axe",
 "speed": 5.0
 }, {
 "frames": [{
@@ -335,6 +377,23 @@ animations = [{
 "loop": true,
 "name": &"Walk",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qfyu5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t4t1c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4g03s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gcwmy")
+}],
+"loop": true,
+"name": &"Walk_Axe",
+"speed": 5.0
 }]
 
 [node name="Minion" groups=["minion"] instance=ExtResource("1_cjd4a")]
@@ -360,7 +419,7 @@ position = Vector2(0, -1)
 shape = SubResource("RectangleShape2D_fnwii")
 
 [node name="CollisionShape2D" parent="PickupComponent" index="0"]
-position = Vector2(0, -1.36)
+position = Vector2(0, -2.36)
 
 [node name="HoldEntityComponent" type="Area2D" parent="." index="3" groups=["hold_entity_component"]]
 script = ExtResource("4_26n4l")
@@ -388,7 +447,18 @@ script = ExtResource("5_xjedm")
 
 [node name="TimerHarvest" type="Timer" parent="." index="7"]
 
-[node name="HealthBar" type="ProgressBar" parent="." index="8"]
+[node name="NameTag" type="Label" parent="." index="8"]
+offset_left = -32.0
+offset_top = -37.0
+offset_right = 376.0
+offset_bottom = 26.0
+scale = Vector2(0.16, 0.16)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 45
+text = "Michael"
+horizontal_alignment = 1
+
+[node name="HealthBar" type="ProgressBar" parent="." index="9"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -408,10 +478,11 @@ max_value = 1.0
 step = 0.0
 value = 1.0
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="9"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="10"]
 sprite_frames = SubResource("SpriteFrames_so6kw")
 animation = &"Walk"
 
+[connection signal="tree_exiting" from="PickupComponent" to="PickupComponent" method="_on_tree_exiting"]
 [connection signal="body_entered" from="View" to="." method="_on_view_body_entered"]
 [connection signal="body_entered" from="InteractRange" to="." method="_on_interact_range_body_entered"]
 [connection signal="timeout" from="TimerIdle" to="." method="_on_timer_idle_timeout"]

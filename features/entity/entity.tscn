@@ -8,7 +8,7 @@
 size = Vector2(12, 16)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_q6ywv"]
-radius = 8.0
+radius = 11.0
 height = 36.72
 
 [node name="Entity" type="CharacterBody2D"]

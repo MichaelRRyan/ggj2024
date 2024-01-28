@@ -1,7 +1,7 @@
 extends Entity
 class_name Minion
 
-signal died
+signal died(name)
 
 @export var speed : float = 300.0
 @export var acceleration : float = 300.0
@@ -43,6 +43,7 @@ func _ready():
 	health = max_health
 	$HealthBar.value = health / max_health
 	name = Global.minion_names[randi() % Global.minion_names.size()]
+	$NameTag.text = name
 
 func _physics_process(delta):
 	var direction = 0
@@ -205,5 +206,5 @@ func take_damage(amount : float):
 
 func _die():
 	print(name + " has died.")
-	emit_signal("died")
+	emit_signal("died", name)
 	queue_free()
