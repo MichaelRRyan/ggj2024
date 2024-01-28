@@ -17,7 +17,7 @@ var is_interacting : bool = false
 var has_task : bool = false
 var has_axe : bool = false
 var is_moving : bool = true
-var has_target : bool = false
+var has_target : bool
 var target_x : float = 0.0
 var target_x_diff : float = 0.0
 var rng = RandomNumberGenerator.new()
@@ -42,7 +42,7 @@ func _physics_process(delta):
 			print(_prev_velocity)
 		velocity.x *= _ground_friction
 		
-		if has_target:
+		if has_target && not is_interacting:
 			target_x_diff = get_global_position().x - target_x
 			if target_x_diff < 0.0:
 				direction = 1
@@ -80,7 +80,7 @@ func _on_view_body_entered(body):
 			target = body
 			has_target = true
 			has_task = true
-			target_x = body.get_global_position().x
+			target_x = target.get_global_position().x
 			print(target_x)
 
 
@@ -100,12 +100,18 @@ func _on_interact_range_body_entered(_body):
 
 
 func _on_timer_harvest_timeout():
-	target.chop()
-	target.queue_free()
-	harvest_timer.stop()
-	is_interacting = false
-	has_task = false
-	pass # Replace with function body.
+	if target != null:
+		target.chop()
+		target.queue_free()
+		harvest_timer.stop()
+		is_interacting = false
+		has_task = false
+		has_target = false
+	else:
+		harvest_timer.stop()
+		is_interacting = false
+		has_task = false
+		has_target = false
 
 func take_damage(amount : float):
 	health -= amount
