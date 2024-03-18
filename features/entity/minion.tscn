@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=3 uid="uid://b7u5ttuukuhdx"]
+[gd_scene load_steps=57 format=3 uid="uid://b7u5ttuukuhdx"]
 
 [ext_resource type="PackedScene" uid="uid://c1q10vduv63ji" path="res://features/entity/entity.tscn" id="1_cjd4a"]
 [ext_resource type="Script" path="res://Characters/basic-minion.gd" id="2_3qkd6"]
@@ -6,9 +6,10 @@
 [ext_resource type="Script" path="res://features/hold_entity/hold_entity_component.gd" id="4_26n4l"]
 [ext_resource type="Texture2D" uid="uid://detl8fqbkd1qb" path="res://assets/images/animations/MinionSpritesheet.png" id="4_ol4be"]
 [ext_resource type="Script" path="res://Characters/TimerIdle.gd" id="5_xjedm"]
+[ext_resource type="Texture2D" uid="uid://cp6y1cm0da032" path="res://assets/images/animations/smack_effect.png" id="7_e73x4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fnwii"]
-size = Vector2(14, 30)
+size = Vector2(22, 30)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_b7och"]
 radius = 14.0
@@ -65,17 +66,9 @@ region = Rect2(0, 160, 32, 32)
 atlas = ExtResource("4_ol4be")
 region = Rect2(32, 160, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_mbdce"]
-atlas = ExtResource("4_ol4be")
-region = Rect2(0, 0, 32, 32)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_chtyo"]
 atlas = ExtResource("4_ol4be")
 region = Rect2(32, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_xc2q6"]
-atlas = ExtResource("4_ol4be")
-region = Rect2(64, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_whbo2"]
 atlas = ExtResource("4_ol4be")
@@ -101,9 +94,9 @@ region = Rect2(32, 224, 32, 32)
 atlas = ExtResource("4_ol4be")
 region = Rect2(64, 224, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_1wchn"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_y4yd5"]
 atlas = ExtResource("4_ol4be")
-region = Rect2(0, 128, 32, 32)
+region = Rect2(32, 128, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_m14qe"]
 atlas = ExtResource("4_ol4be")
@@ -245,13 +238,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_mbdce")
-}, {
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_chtyo")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_xc2q6")
 }],
 "loop": true,
 "name": &"Idle",
@@ -287,7 +274,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_1wchn")
+"texture": SubResource("AtlasTexture_y4yd5")
 }],
 "loop": true,
 "name": &"Limp",
@@ -376,7 +363,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"Walk",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -404,23 +391,28 @@ jump_velocity = -400.0
 health = 10.0
 max_health = 10.0
 _fall_dmg_thershold = 200.0
+_wall_dmg_thershold = 300.0
 _fall_dmg_ratio = 0.01
+_wall_dmg_ratio = 0.005
 has_axe = false
 has_hammer = false
 build_type = ExtResource("3_7huus")
 _type = 1
 
 [node name="Sprite2D" parent="." index="0"]
+visible = false
+scale = Vector2(1, 1)
 texture = ExtResource("4_ol4be")
 hframes = 7
-vframes = 10
+vframes = 12
+frame = 1
 
 [node name="CollisionShape2D" parent="." index="1"]
 position = Vector2(0, -1)
 shape = SubResource("RectangleShape2D_fnwii")
 
 [node name="CollisionShape2D" parent="PickupComponent" index="0"]
-position = Vector2(0, -2.36)
+position = Vector2(0, -1)
 
 [node name="HoldEntityComponent" type="Area2D" parent="." index="3" groups=["hold_entity_component"]]
 script = ExtResource("4_26n4l")
@@ -481,8 +473,31 @@ step = 0.0
 value = 1.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="10"]
+z_index = 5
 sprite_frames = SubResource("SpriteFrames_so6kw")
-animation = &"Swing_Axe"
+animation = &"Limp"
+
+[node name="ImpactFloorSprite" type="Sprite2D" parent="." index="11"]
+visible = false
+position = Vector2(-1, 11)
+texture = ExtResource("7_e73x4")
+region_enabled = true
+region_rect = Rect2(0, 0, 48, 32)
+
+[node name="ImpactFloorEffectTimer" type="Timer" parent="ImpactFloorSprite" index="0"]
+wait_time = 0.1
+one_shot = true
+
+[node name="ImpactWallSprite" type="Sprite2D" parent="." index="12"]
+visible = false
+position = Vector2(0, 1)
+texture = ExtResource("7_e73x4")
+region_enabled = true
+region_rect = Rect2(48, 0, 48, 32)
+
+[node name="ImpactWallEffectTimer" type="Timer" parent="ImpactWallSprite" index="0"]
+wait_time = 0.1
+one_shot = true
 
 [connection signal="tree_exiting" from="PickupComponent" to="PickupComponent" method="_on_tree_exiting"]
 [connection signal="entity_dropped" from="HoldEntityComponent" to="." method="_on_hold_entity_component_entity_dropped"]
@@ -493,3 +508,5 @@ animation = &"Swing_Axe"
 [connection signal="timeout" from="TimerIdle" to="." method="_on_timer_idle_timeout"]
 [connection signal="timeout" from="TimerIdle" to="TimerIdle" method="_on_timeout"]
 [connection signal="timeout" from="TimerHarvest" to="." method="_on_timer_harvest_timeout"]
+[connection signal="timeout" from="ImpactFloorSprite/ImpactFloorEffectTimer" to="." method="_on_impact_floor_effect_timer_timeout"]
+[connection signal="timeout" from="ImpactWallSprite/ImpactWallEffectTimer" to="." method="_on_impact_wall_effect_timer_timeout"]

@@ -23,7 +23,7 @@ func drop():
 		_held_entity.get_node("Sprite2D").show()
 		_held_entity = null
 	
-func _process(delta):
+func _process(_delta):
 	if _held_entity:
 		_held_entity.position = global_position
 

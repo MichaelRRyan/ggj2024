@@ -9,7 +9,9 @@ signal died(name)
 @export var health : float = 10
 @export var max_health : float = 10
 @export var _fall_dmg_thershold : float = 200.0
+@export var _wall_dmg_thershold : float = 300.0
 @export var _fall_dmg_ratio : float = 0.01
+@export var _wall_dmg_ratio : float = 0.005
 @export var has_axe : bool
 @export var has_hammer : bool
 @export var build_type : PackedScene
@@ -19,7 +21,7 @@ var target_array_counter : int = 0
 var interact_array = Array()
 var interact_array_counter : int = 0
 var _prev_velocity := Vector2.ZERO
-var _prev_is_on_floor = false
+var _prev_is_on_wall = false
 var target
 var is_interacting : bool = false
 var has_task : bool = false
@@ -40,6 +42,16 @@ var view_array
 @onready var _animated_sprite : AnimatedSprite2D = get_node("AnimatedSprite2D")
 
 
+enum MinionState {
+	IDLE,
+	FALLING,
+	PICKED_UP,
+	WALKING,
+}
+
+var _state = MinionState.IDLE
+
+
 func _ready():
 	health = max_health
 	$HealthBar.value = health / max_health
@@ -47,89 +59,126 @@ func _ready():
 	$NameTag.text = name
 
 func _physics_process(delta):
+	match(_state):
+		MinionState.IDLE:
+			_idle(delta)
+		MinionState.FALLING:
+			_falling(delta)
+		MinionState.PICKED_UP:
+			_picked_up()
+		MinionState.WALKING:
+			_walking()
+	
+	_prev_velocity = velocity
+	_prev_is_on_wall = is_on_wall()
+	move_and_slide()
+
+
+func _idle(delta):
 	var direction = 0
-	if is_on_floor():
-		# Apply air friction
-		velocity.x *= _ground_friction
+	
+	if not is_on_floor():
+		_state = MinionState.FALLING
+		return
 		
-		# Take fall damage on ground impact.
-		if not _prev_is_on_floor and _prev_velocity.y >= _fall_dmg_thershold:
-			take_damage((_prev_velocity.y - _fall_dmg_thershold) * _fall_dmg_ratio)
-			print(_prev_velocity)
+	# Apply air friction
+	velocity.x *= _ground_friction
 		
-		if not has_target && not is_interacting && not has_target:
-			get_view_array()
-			for n in view_array.size():
-				if has_axe:
-					if view_array[n].is_in_group("tree"):
-						target = view_array[n]
-						target.connect("tree_exiting", target_exited)
+	if not has_target && not is_interacting && not has_target:
+		get_view_array()
+		for n in view_array.size():
+			if has_axe:
+				if view_array[n].is_in_group("tree"):
+					target = view_array[n]
+					target.connect("tree_exiting", target_exited)
+					has_target = true
+					has_task = true
+					target_x = view_array[n].get_global_position().x
+
+			if has_hammer:
+				if view_array[n].is_in_group("resource"):
+					target_array.append(view_array[n])
+					target_array_counter += 1
+					if target_array.size() >= 3:
 						has_target = true
 						has_task = true
 						target_x = view_array[n].get_global_position().x
-				if has_hammer:
-					if view_array[n].is_in_group("resource"):
-						target_array.append(view_array[n])
-						target_array_counter += 1
-						if target_array.size() >= 3:
-							has_target = true
-							has_task = true
-							target_x = view_array[n].get_global_position().x
-							target = view_array[n]
-							target.connect("tree_exiting", target_exited)
+						target = view_array[n]
+						target.connect("tree_exiting", target_exited)
 							
-							
-				
-		
-		if has_target && not is_interacting:
-			target_x_diff = get_global_position().x - target_x
-			print(target_x_diff)
-			print(is_interacting)
-			if target_x_diff <= 0.0:
-				direction = 1
-			else:
-				direction = -1
+	if has_target && not is_interacting:
+		target_x_diff = get_global_position().x - target_x
+
+		if target_x_diff <= 0.0:
+			direction = 1
 		else:
-			direction = 0
-		
-		# Move randomly if no target.
-		if has_task && not has_target && not is_interacting:
-			if random_number >= 0.0:
-				direction = 1
-			else:
-				direction = -1
-		
-		# Play ground movement animations.
-		if direction != 0:
-			if has_axe:
-				_animated_sprite.play("Walk_Axe")
-			else:
-				_animated_sprite.play("Walk")
-			
-			_animated_sprite.flip_h = direction < 0
-		else:
-			if has_axe:
-				if is_interacting:
-					_animated_sprite.play("Swing_Axe")
-				else:
-					_animated_sprite.play("Idle_Axe")
-			else:
-				_animated_sprite.play("Idle")
+			direction = -1
 	else:
-		velocity.y += gravity * delta
-		velocity.x *= _air_friction
-		if has_axe:
-			_animated_sprite.play("Limp_Axe")
+		direction = 0
+	
+	# Move randomly if no target.
+	if has_task && not has_target && not is_interacting:
+		if random_number >= 0.0:
+			direction = 1
 		else:
-			_animated_sprite.play("Limp")
+			direction = -1
+	
+	# Play ground movement animations.
+	if direction != 0:
+		if has_axe:
+			_animated_sprite.play("Walk_Axe")
+		else:
+			_animated_sprite.play("Walk")
 		
+		_animated_sprite.flip_h = direction < 0
+	else:
+		if has_axe:
+			if is_interacting:
+				_animated_sprite.play("Swing_Axe")
+			else:
+				_animated_sprite.play("Idle_Axe")
+		else:
+			_animated_sprite.play("Idle")
+	
 	if _pickup_component == null or not _pickup_component.is_held():
 		velocity.x = clamp(velocity.x + direction * acceleration * delta, -speed, speed)
-	
-	_prev_velocity = velocity
-	_prev_is_on_floor = is_on_floor()
-	move_and_slide()
 
+
+#---------------------------------------------------------------------------------------------------
+func _falling(delta):
+	if is_on_floor():
+		_state = MinionState.IDLE
+		
+		# Take fall damage on ground impact.
+		if _prev_velocity.y >= _fall_dmg_thershold:
+			take_damage((_prev_velocity.y - _fall_dmg_thershold) * _fall_dmg_ratio)
+			$ImpactFloorSprite.show()
+			$ImpactFloorSprite/ImpactFloorEffectTimer.start()
+			
+		return
+	
+	if is_on_wall() and not _prev_is_on_wall:
+		# Take damage on wall impact.
+		if abs(_prev_velocity.x) >= _wall_dmg_thershold:
+			take_damage((abs(_prev_velocity.x) - _wall_dmg_thershold) * _wall_dmg_ratio)
+			$ImpactWallSprite.show()
+			$ImpactWallSprite/ImpactWallEffectTimer.start()
+			$ImpactWallSprite.flip_h = get_wall_normal().x > 0
+			
+	velocity.y += gravity * delta
+	velocity.x *= _air_friction
+		
+	if has_axe:
+		_animated_sprite.play("Limp_Axe")
+	else:
+		_animated_sprite.play("Limp")
+
+
+func _picked_up():
+	pass
+
+func _walking():
+	pass
 
 func target_exited():
 	target = null
@@ -225,3 +274,11 @@ func _on_hold_entity_component_entity_held(entity_type):
 func _on_hold_entity_component_entity_dropped(entity_type):
 	if entity_type == EntityType.TOOL:
 		has_axe = false
+
+
+func _on_impact_floor_effect_timer_timeout():
+	$ImpactFloorSprite.hide()
+
+
+func _on_impact_wall_effect_timer_timeout():
+	$ImpactWallSprite.hide()

@@ -65,6 +65,7 @@ func _input(event):
 		else:
 			Global.mouse.is_holding_entity = false
 			_is_held = false
+			_parent.velocity *= 0.5
 
 #-------------------------------------------------------------------------------
 func _on_area_entered(area):
