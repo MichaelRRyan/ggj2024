@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=3 uid="uid://b7u5ttuukuhdx"]
+[gd_scene load_steps=52 format=3 uid="uid://b7u5ttuukuhdx"]
 
 [ext_resource type="PackedScene" uid="uid://c1q10vduv63ji" path="res://features/entity/entity.tscn" id="1_cjd4a"]
 [ext_resource type="Script" path="res://Characters/basic-minion.gd" id="2_3qkd6"]
@@ -7,24 +7,6 @@
 [ext_resource type="Texture2D" uid="uid://detl8fqbkd1qb" path="res://assets/images/animations/MinionSpritesheet.png" id="4_ol4be"]
 [ext_resource type="Script" path="res://Characters/TimerIdle.gd" id="5_xjedm"]
 [ext_resource type="Texture2D" uid="uid://cp6y1cm0da032" path="res://assets/images/animations/smack_effect.png" id="7_e73x4"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_fnwii"]
-size = Vector2(22, 30)
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_b7och"]
-radius = 14.0
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_e5ycy"]
-size = Vector2(1617.5, 1449.5)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ddud3"]
-size = Vector2(32, 44)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kcdhf"]
-bg_color = Color(0.929412, 0.419608, 0.372549, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6fl1g"]
-bg_color = Color(0.368627, 0.741176, 0.321569, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yugt3"]
 atlas = ExtResource("4_ol4be")
@@ -54,17 +36,9 @@ region = Rect2(160, 96, 32, 32)
 atlas = ExtResource("4_ol4be")
 region = Rect2(192, 96, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_klft0"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_nkpoi"]
 atlas = ExtResource("4_ol4be")
-region = Rect2(0, 160, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_l63mx"]
-atlas = ExtResource("4_ol4be")
-region = Rect2(0, 160, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_w5rxn"]
-atlas = ExtResource("4_ol4be")
-region = Rect2(32, 160, 32, 32)
+region = Rect2(0, 128, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_chtyo"]
 atlas = ExtResource("4_ol4be")
@@ -101,26 +75,6 @@ region = Rect2(32, 128, 32, 32)
 [sub_resource type="AtlasTexture" id="AtlasTexture_m14qe"]
 atlas = ExtResource("4_ol4be")
 region = Rect2(0, 352, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_152la"]
-atlas = ExtResource("4_ol4be")
-region = Rect2(0, 64, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_abfvl"]
-atlas = ExtResource("4_ol4be")
-region = Rect2(32, 64, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_id6ua"]
-atlas = ExtResource("4_ol4be")
-region = Rect2(64, 64, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_hw086"]
-atlas = ExtResource("4_ol4be")
-region = Rect2(96, 64, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_s3boc"]
-atlas = ExtResource("4_ol4be")
-region = Rect2(128, 64, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_stcdk"]
 atlas = ExtResource("4_ol4be")
@@ -194,6 +148,10 @@ region = Rect2(64, 320, 32, 32)
 atlas = ExtResource("4_ol4be")
 region = Rect2(96, 320, 32, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_abfvl"]
+atlas = ExtResource("4_ol4be")
+region = Rect2(32, 64, 32, 32)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_so6kw"]
 animations = [{
 "frames": [{
@@ -224,16 +182,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_klft0")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_l63mx")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_w5rxn")
+"texture": SubResource("AtlasTexture_nkpoi")
 }],
 "loop": true,
-"name": &"Fall",
+"name": &"Falling",
 "speed": 8.0
 }, {
 "frames": [{
@@ -286,26 +238,6 @@ animations = [{
 }],
 "loop": true,
 "name": &"Limp_Axe",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_152la")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_abfvl")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_id6ua")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_hw086")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_s3boc")
-}],
-"loop": true,
-"name": &"Pray",
 "speed": 5.0
 }, {
 "frames": [{
@@ -381,7 +313,37 @@ animations = [{
 "loop": true,
 "name": &"Walk_Axe",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_abfvl")
+}],
+"loop": true,
+"name": &"Worship",
+"speed": 5.0
 }]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fnwii"]
+size = Vector2(22, 30)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_q6ywv"]
+radius = 13.0
+height = 34.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_b7och"]
+radius = 14.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e5ycy"]
+size = Vector2(1617.5, 1449.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ddud3"]
+size = Vector2(32, 44)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kcdhf"]
+bg_color = Color(0.929412, 0.419608, 0.372549, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6fl1g"]
+bg_color = Color(0.368627, 0.741176, 0.321569, 1)
 
 [node name="Minion" groups=["minion"] instance=ExtResource("1_cjd4a")]
 script = ExtResource("2_3qkd6")
@@ -399,7 +361,12 @@ has_hammer = false
 build_type = ExtResource("3_7huus")
 _type = 1
 
-[node name="Sprite2D" parent="." index="0"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="0"]
+z_index = 5
+sprite_frames = SubResource("SpriteFrames_so6kw")
+animation = &"Worship"
+
+[node name="Sprite2D" parent="." index="1"]
 visible = false
 scale = Vector2(1, 1)
 texture = ExtResource("4_ol4be")
@@ -407,21 +374,27 @@ hframes = 7
 vframes = 12
 frame = 1
 
-[node name="CollisionShape2D" parent="." index="1"]
+[node name="CollisionShape2D" parent="." index="2"]
 position = Vector2(0, -1)
 shape = SubResource("RectangleShape2D_fnwii")
 
 [node name="CollisionShape2D" parent="PickupComponent" index="0"]
 position = Vector2(0, -1)
 
-[node name="HoldEntityComponent" type="Area2D" parent="." index="3" groups=["hold_entity_component"]]
+[node name="WorshipComponent" type="Area2D" parent="." index="4"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorshipComponent" index="0"]
+position = Vector2(0, -1)
+shape = SubResource("CapsuleShape2D_q6ywv")
+
+[node name="HoldEntityComponent" type="Area2D" parent="." index="5" groups=["hold_entity_component"]]
 script = ExtResource("4_26n4l")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HoldEntityComponent" index="0"]
 visible = false
 shape = SubResource("CircleShape2D_b7och")
 
-[node name="View" type="Area2D" parent="." index="4"]
+[node name="View" type="Area2D" parent="." index="6"]
 collision_layer = 0
 collision_mask = 6
 
@@ -429,19 +402,19 @@ collision_mask = 6
 visible = false
 shape = SubResource("RectangleShape2D_e5ycy")
 
-[node name="InteractRange" type="Area2D" parent="." index="5"]
+[node name="InteractRange" type="Area2D" parent="." index="7"]
 collision_layer = 0
 collision_mask = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractRange" index="0"]
 shape = SubResource("RectangleShape2D_ddud3")
 
-[node name="TimerIdle" type="Timer" parent="." index="6"]
+[node name="TimerIdle" type="Timer" parent="." index="8"]
 script = ExtResource("5_xjedm")
 
-[node name="TimerHarvest" type="Timer" parent="." index="7"]
+[node name="TimerHarvest" type="Timer" parent="." index="9"]
 
-[node name="NameTag" type="Label" parent="." index="8"]
+[node name="NameTag" type="Label" parent="." index="10"]
 offset_left = -32.0
 offset_top = -37.0
 offset_right = 376.0
@@ -452,7 +425,7 @@ theme_override_font_sizes/font_size = 45
 text = "Michael"
 horizontal_alignment = 1
 
-[node name="HealthBar" type="ProgressBar" parent="." index="9"]
+[node name="HealthBar" type="ProgressBar" parent="." index="11"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -472,12 +445,7 @@ max_value = 1.0
 step = 0.0
 value = 1.0
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="10"]
-z_index = 5
-sprite_frames = SubResource("SpriteFrames_so6kw")
-animation = &"Limp"
-
-[node name="ImpactFloorSprite" type="Sprite2D" parent="." index="11"]
+[node name="ImpactFloorSprite" type="Sprite2D" parent="." index="12"]
 visible = false
 position = Vector2(-1, 11)
 texture = ExtResource("7_e73x4")
@@ -488,7 +456,7 @@ region_rect = Rect2(0, 0, 48, 32)
 wait_time = 0.1
 one_shot = true
 
-[node name="ImpactWallSprite" type="Sprite2D" parent="." index="12"]
+[node name="ImpactWallSprite" type="Sprite2D" parent="." index="13"]
 visible = false
 position = Vector2(0, 1)
 texture = ExtResource("7_e73x4")
@@ -500,6 +468,13 @@ wait_time = 0.1
 one_shot = true
 
 [connection signal="tree_exiting" from="PickupComponent" to="PickupComponent" method="_on_tree_exiting"]
+[connection signal="area_entered" from="WorshipComponent" to="WorshipComponent" method="_on_area_entered"]
+[connection signal="area_exited" from="WorshipComponent" to="WorshipComponent" method="_on_area_exited"]
+[connection signal="mouse_entered" from="WorshipComponent" to="." method="_on_worship_component_mouse_entered"]
+[connection signal="mouse_entered" from="WorshipComponent" to="WorshipComponent" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="WorshipComponent" to="." method="_on_worship_component_mouse_exited"]
+[connection signal="mouse_exited" from="WorshipComponent" to="WorshipComponent" method="_on_mouse_exited"]
+[connection signal="tree_exiting" from="WorshipComponent" to="WorshipComponent" method="_on_tree_exiting"]
 [connection signal="entity_dropped" from="HoldEntityComponent" to="." method="_on_hold_entity_component_entity_dropped"]
 [connection signal="entity_held" from="HoldEntityComponent" to="." method="_on_hold_entity_component_entity_held"]
 [connection signal="tree_exiting" from="HoldEntityComponent" to="HoldEntityComponent" method="_on_tree_exiting"]

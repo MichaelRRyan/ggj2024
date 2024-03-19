@@ -31,6 +31,7 @@ var target_x : float = 0.0
 var target_x_diff : float = 0.0
 var rng = RandomNumberGenerator.new()
 var random_number = 0.0
+var temp_is_hovered = false
 
 var view_array
 @onready var view_area = $View
@@ -46,7 +47,8 @@ enum MinionState {
 	IDLE,
 	FALLING,
 	PICKED_UP,
-	WALKING,
+	WANDERING,
+	WORSHIP,
 }
 
 var _state = MinionState.IDLE
@@ -66,8 +68,12 @@ func _physics_process(delta):
 			_falling(delta)
 		MinionState.PICKED_UP:
 			_picked_up()
-		MinionState.WALKING:
-			_walking()
+		MinionState.WANDERING:
+			_wandering()
+		MinionState.WORSHIP:
+			_worship()
+	
+	super._physics_process(delta)
 	
 	_prev_velocity = velocity
 	_prev_is_on_wall = is_on_wall()
@@ -146,15 +152,14 @@ func _idle(delta):
 
 #---------------------------------------------------------------------------------------------------
 func _falling(delta):
-	if is_on_floor():
-		_state = MinionState.IDLE
-		
+	if is_on_floor():	
 		# Take fall damage on ground impact.
 		if _prev_velocity.y >= _fall_dmg_thershold:
 			take_damage((_prev_velocity.y - _fall_dmg_thershold) * _fall_dmg_ratio)
 			$ImpactFloorSprite.show()
 			$ImpactFloorSprite/ImpactFloorEffectTimer.start()
-			
+		
+		_state = MinionState.IDLE
 		return
 	
 	if is_on_wall() and not _prev_is_on_wall:
@@ -165,20 +170,27 @@ func _falling(delta):
 			$ImpactWallSprite/ImpactWallEffectTimer.start()
 			$ImpactWallSprite.flip_h = get_wall_normal().x > 0
 			
-	velocity.y += gravity * delta
-	velocity.x *= _air_friction
-		
-	if has_axe:
-		_animated_sprite.play("Limp_Axe")
+	# If not held by cursor.
+	if _pickup_component == null or not _pickup_component.is_held():
+		if has_axe:
+			_animated_sprite.play("Limp_Axe")
+		else:
+			_animated_sprite.play("Falling")
 	else:
-		_animated_sprite.play("Limp")
+		if has_axe:
+			_animated_sprite.play("Limp_Axe")
+		else:
+			_animated_sprite.play("Limp")
 
 
 func _picked_up():
 	pass
 
-func _walking():
+func _wandering():
 	pass
+
+func _worship():
+	_animated_sprite.play("Worship")
 
 func target_exited():
 	target = null
@@ -282,3 +294,17 @@ func _on_impact_floor_effect_timer_timeout():
 
 func _on_impact_wall_effect_timer_timeout():
 	$ImpactWallSprite.hide()
+
+
+func _input(event):
+	if event.is_action_pressed("select") and temp_is_hovered:
+		if not _state == MinionState.FALLING and not _state == MinionState.PICKED_UP:
+			_state = MinionState.WORSHIP
+
+
+func _on_worship_component_mouse_entered():
+	temp_is_hovered = true
+
+
+func _on_worship_component_mouse_exited():
+	temp_is_hovered = false

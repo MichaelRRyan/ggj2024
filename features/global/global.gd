@@ -1,9 +1,12 @@
 extends Node
 
+# Picks up objects and minions. Always picks up objects before minions.
 class Mouse:
 	var is_holding_entity = false
 	var _requested_pickup = []
 	
+	# Opposed to first come first served, the mouse collects requests for a frame,
+	# then tries to pickup objects before minions.
 	func request_pickup(node : Node2D):
 		if not is_holding_entity:
 			_requested_pickup.append(node)
@@ -12,6 +15,7 @@ class Mouse:
 	func _pickup():
 		if _requested_pickup.is_empty(): return
 		
+		# Looks for a request that's not a minion.
 		for object in _requested_pickup:
 			if not object.get_parent().is_in_group("minion"):
 				object.mouse_pickup()
@@ -19,6 +23,7 @@ class Mouse:
 				_requested_pickup.clear()
 				return
 		
+		# Falls back to whatever is at the front of the list.
 		_requested_pickup.front().mouse_pickup()
 		is_holding_entity = true
 		_requested_pickup.clear()
