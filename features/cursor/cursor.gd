@@ -9,6 +9,7 @@ enum CursorState {
 
 var _state = CursorState.IDLE
 var _hovered_interactables = []
+var _held_entity : Entity = null
 
 #-------------------------------------------------------------------------------
 func _ready():
@@ -19,13 +20,7 @@ func _ready():
 func _input(event):
 	if event.is_action_pressed("select"):
 		if _state == CursorState.IDLE:
-			_state = CursorState.PROCESSING
-			$HoldTimer.start()
-			
-			if not _hovered_interactables.is_empty():
-				var parent = _hovered_interactables.front().get_parent()
-				if parent:
-					print("Clicked " + parent.name)
+			_set_state(CursorState.PROCESSING)
 					
 	elif event.is_action_released("select"):
 		if _state == CursorState.HOLD or _state == CursorState.CLICK:
@@ -38,13 +33,9 @@ func _input(event):
 #-------------------------------------------------------------------------------
 func _on_hold_timer_timeout():
 	if _state == CursorState.PROCESSING:
-		_state == CursorState.HOLD
-	
+		_set_state(CursorState.HOLD)
 	elif _state == CursorState.IDLE:
-		_state == CursorState.CLICK
-	
-	if not _hovered_interactables.is_empty():
-		print("Holding " + _hovered_interactables.front().name)
+		_set_state(CursorState.CLICK)
 
 #-------------------------------------------------------------------------------
 func _on_interactable_entered(node):
@@ -58,15 +49,39 @@ func _on_interactable_exited(node):
 func _set_state(new_state : CursorState) -> bool:
 	var success = false
 	
-	match new_state:
+	# Switch on current state
+	match _state:
 		CursorState.IDLE:
 			success = true
 			
-		CursorState.PROCESSING:
-			if _state == CursorState.IDLE:
-				$HoldTimer.start()
+			# Transition from IDLE to PROCESSING
+			if new_state == CursorState.PROCESSING:
+				_trans_idle_to_processing()
+				
+			# Transition from IDLE to PROCESSING
+			if new_state == CursorState.CLICK:
+				
+				if not _hovered_interactables.is_empty():
+					var parent = _hovered_interactables.front().get_parent()
+					
+					if parent and parent is Entity:
+						_held_entity = parent
+						print("Clicked " + _held_entity.name)
 			
+		CursorState.PROCESSING:
 			success = true
+			
+			# Transition to HOLD
+			if _state == CursorState.HOLD:
+				if not _hovered_interactables.is_empty():
+					print("Holding " + _hovered_interactables.front().name)
+			
+			# Transition to CLICK
+			if new_state == CursorState.CLICK:
+				if _held_entity:
+					print("Clicked + " + _held_entity.name)
+				else:
+					print("Clicked")
 			
 		CursorState.CLICK:
 			success = true
@@ -79,4 +94,22 @@ func _set_state(new_state : CursorState) -> bool:
 	
 	return success
 
+
 #-------------------------------------------------------------------------------
+func _trans_idle_to_processing():
+	$HoldTimer.start()
+	
+	_held_entity = _find_hold_target()
+	if _held_entity:
+		print("Processing " + _held_entity.name)
+		
+
+#-------------------------------------------------------------------------------
+# TODO Pickup with priority - See Global.Mouse comments.
+func _find_hold_target():
+	if _hovered_interactables.is_empty():
+		return null
+	
+	var parent = _hovered_interactables.front().get_parent()
+	if parent and parent is Minion: # TODO switch for interface
+		return parent
