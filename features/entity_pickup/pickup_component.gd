@@ -41,13 +41,15 @@ func _process(_delta):
 		var vel_length = clamp(raw_vel.length(), -distance_with_framerate, distance_with_framerate)
 		var final_vel = raw_vel.normalized() * vel_length
 		_parent.velocity = final_vel
-
+		
 #-------------------------------------------------------------------------------
 func _on_mouse_entered():
+	Global.mouse.entered(self)
 	_mouse_hovered = true
 
 #-------------------------------------------------------------------------------
 func _on_mouse_exited():
+	Global.mouse.entered(self)
 	_mouse_hovered = false
 
 #-------------------------------------------------------------------------------

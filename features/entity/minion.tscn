@@ -387,6 +387,10 @@ position = Vector2(0, -1)
 position = Vector2(0, -1)
 shape = SubResource("CapsuleShape2D_q6ywv")
 
+[node name="Timer" type="Timer" parent="WorshipComponent" index="1"]
+wait_time = 3.0
+one_shot = true
+
 [node name="HoldEntityComponent" type="Area2D" parent="." index="5" groups=["hold_entity_component"]]
 script = ExtResource("4_26n4l")
 
@@ -475,6 +479,7 @@ one_shot = true
 [connection signal="mouse_exited" from="WorshipComponent" to="." method="_on_worship_component_mouse_exited"]
 [connection signal="mouse_exited" from="WorshipComponent" to="WorshipComponent" method="_on_mouse_exited"]
 [connection signal="tree_exiting" from="WorshipComponent" to="WorshipComponent" method="_on_tree_exiting"]
+[connection signal="timeout" from="WorshipComponent/Timer" to="." method="_on_worship_timer_timeout"]
 [connection signal="entity_dropped" from="HoldEntityComponent" to="." method="_on_hold_entity_component_entity_dropped"]
 [connection signal="entity_held" from="HoldEntityComponent" to="." method="_on_hold_entity_component_entity_held"]
 [connection signal="tree_exiting" from="HoldEntityComponent" to="HoldEntityComponent" method="_on_tree_exiting"]

@@ -60,8 +60,9 @@ func _ready():
 	name = Global.minion_names[randi() % Global.minion_names.size()]
 	$NameTag.text = name
 
+
 func _physics_process(delta):
-	match(_state):
+	match _state:
 		MinionState.IDLE:
 			_idle(delta)
 		MinionState.FALLING:
@@ -84,7 +85,7 @@ func _idle(delta):
 	var direction = 0
 	
 	if not is_on_floor():
-		_state = MinionState.FALLING
+		change_state_to(MinionState.FALLING)
 		return
 		
 	# Apply air friction
@@ -159,7 +160,7 @@ func _falling(delta):
 			$ImpactFloorSprite.show()
 			$ImpactFloorSprite/ImpactFloorEffectTimer.start()
 		
-		_state = MinionState.IDLE
+		change_state_to(MinionState.IDLE)
 		return
 	
 	if is_on_wall() and not _prev_is_on_wall:
@@ -191,6 +192,7 @@ func _wandering():
 
 func _worship():
 	_animated_sprite.play("Worship")
+
 
 func target_exited():
 	target = null
@@ -298,8 +300,7 @@ func _on_impact_wall_effect_timer_timeout():
 
 func _input(event):
 	if event.is_action_pressed("select") and temp_is_hovered:
-		if not _state == MinionState.FALLING and not _state == MinionState.PICKED_UP:
-			_state = MinionState.WORSHIP
+		change_state_to(MinionState.WORSHIP)
 
 
 func _on_worship_component_mouse_entered():
@@ -308,3 +309,34 @@ func _on_worship_component_mouse_entered():
 
 func _on_worship_component_mouse_exited():
 	temp_is_hovered = false
+
+
+func _on_worship_timer_timeout():
+	change_state_to(MinionState.IDLE)
+
+
+func change_state_to(new_state : MinionState) -> bool:
+	var success = false
+	
+	match new_state:
+		MinionState.IDLE:
+			success = true
+			
+		MinionState.FALLING:
+			success = true
+			
+		MinionState.PICKED_UP:
+			success = true
+			
+		MinionState.WANDERING:
+			success = true
+			
+		MinionState.WORSHIP:
+			if not _state == MinionState.FALLING and not _state == MinionState.PICKED_UP:
+				$WorshipComponent/Timer.start()
+				success = true
+	
+	if success:
+		_state = new_state
+	
+	return success

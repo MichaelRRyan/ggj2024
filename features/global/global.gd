@@ -2,6 +2,9 @@ extends Node
 
 # Picks up objects and minions. Always picks up objects before minions.
 class Mouse:
+	signal interactable_entered(node)
+	signal interactable_exited(node)
+	
 	var is_holding_entity = false
 	var _requested_pickup = []
 	
@@ -27,6 +30,12 @@ class Mouse:
 		_requested_pickup.front().mouse_pickup()
 		is_holding_entity = true
 		_requested_pickup.clear()
+	
+	func entered(node):
+		emit_signal("interactable_entered", node)
+	
+	func exited(node):
+		emit_signal("interactable_exited", node)
 
 
 var mouse : Mouse = Mouse.new()
