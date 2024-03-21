@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://bww4066sguykt"]
+
+[ext_resource type="Script" path="res://features/deity/deity.gd" id="1_4w2tv"]
+[ext_resource type="PackedScene" uid="uid://c75unhmng0c4y" path="res://features/cursor/cursor.tscn" id="2_u6q1u"]
+
+[node name="Deity" type="Node2D"]
+script = ExtResource("1_4w2tv")
+
+[node name="Cursor" parent="." instance=ExtResource("2_u6q1u")]
+
+[connection signal="entity_clicked" from="Cursor" to="." method="_on_cursor_entity_clicked"]
+[connection signal="entity_held" from="Cursor" to="." method="_on_cursor_entity_held"]
+[connection signal="entity_released" from="Cursor" to="." method="_on_cursor_entity_released"]

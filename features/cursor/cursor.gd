@@ -4,6 +4,8 @@ signal entity_clicked(entity : Entity)
 signal entity_held(entity : Entity)
 signal entity_released(entity : Entity)
 
+@export var hold_interval : float = 0.2
+
 enum CursorState {
 	IDLE,
 	PROCESSING,
@@ -14,6 +16,8 @@ enum CursorState {
 var _state = CursorState.IDLE
 var _hovered_interactables = []
 var _held_entity : Entity = null
+
+var _cursor_debug = false
 
 #-------------------------------------------------------------------------------
 func _ready():
@@ -89,10 +93,9 @@ func _set_state(new_state : CursorState) -> bool:
 
 #-------------------------------------------------------------------------------
 func _trans_idle_to_processing():
-	$HoldTimer.start()
-	
+	$HoldTimer.start(hold_interval)
 	_held_entity = _find_hold_target()
-	if _held_entity:
+	if _held_entity and _cursor_debug:
 		print("Processing " + _held_entity.name)
 
 #-------------------------------------------------------------------------------
@@ -104,26 +107,28 @@ func _trans_processing_to_click():
 	call_deferred("_set_state", CursorState.IDLE)
 	_held_entity = null
 	
-	if _held_entity:
-		print("Clicked + " + _held_entity.name)
-	else:
-		print("Clicked")
+	if _cursor_debug:
+		if _held_entity:
+			print("Clicked + " + _held_entity.name)
+		else:
+			print("Clicked")
 
 #-------------------------------------------------------------------------------
 func _trans_processing_to_hold():
 	if _held_entity:
 		emit_signal("entity_held", _held_entity)
 	
-	if _held_entity:
+	if _held_entity and _cursor_debug:
 		print("Holding " + _held_entity.name)
 	
 #-------------------------------------------------------------------------------
 func _trans_hold_to_idle():
-	if _held_entity:
+	if _held_entity and is_instance_valid(_held_entity): # TODO Should keep track of instances freeing and mark it as released
 		emit_signal("entity_released", _held_entity)
-		print("Released + " + _held_entity.name)
+		if _cursor_debug:
+			print("Released + " + _held_entity.name)
 		_held_entity = null
-	else:
+	elif _cursor_debug:
 		print("Released")
 
 #-------------------------------------------------------------------------------

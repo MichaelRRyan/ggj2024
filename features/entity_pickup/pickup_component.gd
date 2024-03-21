@@ -53,21 +53,21 @@ func _on_mouse_exited():
 	_mouse_hovered = false
 
 #-------------------------------------------------------------------------------
-func _input(event):
-	if event.is_action_pressed("select") and _mouse_hovered:
-		Global.mouse.request_pickup(self)
-		
-	elif event.is_action_released("select") and _is_held:
-		# If hovering over a hold component and not a minion.
-		if _hovered_hold_component and not _parent.is_in_group("minion"):
-			Global.mouse.is_holding_entity = false
-			_hovered_hold_component.hold(_parent, self)
-			_is_held = false
-			
-		else:
-			Global.mouse.is_holding_entity = false
-			_is_held = false
-			_parent.velocity *= 0.5
+#func _input(event):
+	#if event.is_action_pressed("select") and _mouse_hovered:
+		#Global.mouse.request_pickup(self)
+		#
+	#elif event.is_action_released("select") and _is_held:
+		## If hovering over a hold component and not a minion.
+		#if _hovered_hold_component and not _parent.is_in_group("minion"):
+			#Global.mouse.is_holding_entity = false
+			#_hovered_hold_component.hold(_parent, self)
+			#_is_held = false
+			#
+		#else:
+			#Global.mouse.is_holding_entity = false
+			#_is_held = false
+			#_parent.velocity *= 0.5
 
 #-------------------------------------------------------------------------------
 func _on_area_entered(area):

@@ -4,9 +4,9 @@
 
 [node name="Cursor" type="Node"]
 script = ExtResource("1_v5doo")
+hold_interval = 0.1
 
 [node name="HoldTimer" type="Timer" parent="."]
-wait_time = 0.3
 one_shot = true
 
 [connection signal="timeout" from="HoldTimer" to="." method="_on_hold_timer_timeout"]

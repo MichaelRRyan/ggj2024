@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://b7u5ttuukuhdx" path="res://features/entity/minion.tscn" id="6_jtv3i"]
 [ext_resource type="Script" path="res://gameplay/kill_area.gd" id="6_uc1pn"]
 [ext_resource type="PackedScene" uid="uid://bal1dnmt1mgeg" path="res://gameplay/objective_manager.tscn" id="7_cj0x0"]
-[ext_resource type="PackedScene" uid="uid://wax8rcup3weu" path="res://features/cursor/god_cursor.tscn" id="9_5iffb"]
+[ext_resource type="PackedScene" uid="uid://bww4066sguykt" path="res://features/deity/deity.tscn" id="9_o713w"]
 [ext_resource type="PackedScene" uid="uid://c0ierwhaepa5j" path="res://Characters/tree.tscn" id="10_tuqad"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f1gx5"]
@@ -28,15 +28,15 @@ zoom = Vector2(2, 2)
 [node name="Background1" type="Sprite2D" parent="."]
 z_index = -9
 texture_filter = 1
-position = Vector2(195.76, -79.68)
-scale = Vector2(1.495, 1.495)
+position = Vector2(172, -84)
+scale = Vector2(1.31, 1.31)
 texture = ExtResource("2_3ruyh")
 
 [node name="Background2" type="Sprite2D" parent="."]
 z_index = -10
 texture_filter = 1
-position = Vector2(195.76, -79.68)
-scale = Vector2(1.495, 1.495)
+position = Vector2(182, -108)
+scale = Vector2(1.35044, 1.35044)
 texture = ExtResource("3_eb3fm")
 
 [node name="Tool" parent="." instance=ExtResource("5_ay17o")]
@@ -92,16 +92,8 @@ position = Vector2(101, -16)
 position = Vector2(-33, -138)
 has_hammer = true
 
-[node name="Minion2" parent="." instance=ExtResource("6_jtv3i")]
-position = Vector2(136, -127)
-has_hammer = true
-
-[node name="Minion3" parent="." instance=ExtResource("6_jtv3i")]
-position = Vector2(56, -28)
-has_hammer = true
-
 [node name="Timer" type="Timer" parent="."]
 
-[node name="GodCursor" parent="." instance=ExtResource("9_5iffb")]
+[node name="Deity" parent="." instance=ExtResource("9_o713w")]
 
 [connection signal="body_entered" from="KillArea" to="KillArea" method="_on_body_entered"]

@@ -31,7 +31,8 @@ var target_x : float = 0.0
 var target_x_diff : float = 0.0
 var rng = RandomNumberGenerator.new()
 var random_number = 0.0
-var temp_is_hovered = false
+
+var _state_debug = false
 
 var view_array
 @onready var view_area = $View
@@ -53,7 +54,6 @@ enum MinionState {
 
 var _state = MinionState.IDLE
 
-
 func _ready():
 	health = max_health
 	$HealthBar.value = health / max_health
@@ -73,11 +73,12 @@ func _physics_process(delta):
 			_wandering()
 		MinionState.WORSHIP:
 			_worship()
-	
+			
 	super._physics_process(delta)
 	
 	_prev_velocity = velocity
 	_prev_is_on_wall = is_on_wall()
+	
 	move_and_slide()
 
 
@@ -153,39 +154,47 @@ func _idle(delta):
 
 #---------------------------------------------------------------------------------------------------
 func _falling(delta):
+	_check_for_impacts()
+	
 	if is_on_floor():	
+		change_state_to(MinionState.IDLE)
+		return
+			
+	if has_axe:
+		_animated_sprite.play("Limp_Axe")
+	else:
+		_animated_sprite.play("Falling")
+
+#---------------------------------------------------------------------------------------------------
+func _picked_up():
+	_check_for_impacts()
+	
+	if has_axe:
+		_animated_sprite.play("Limp_Axe")
+	else:
+		_animated_sprite.play("Limp")
+
+#---------------------------------------------------------------------------------------------------
+func _check_for_impacts():
+	if is_on_floor():
+		print(_prev_velocity.y)
+		
 		# Take fall damage on ground impact.
 		if _prev_velocity.y >= _fall_dmg_thershold:
 			take_damage((_prev_velocity.y - _fall_dmg_thershold) * _fall_dmg_ratio)
 			$ImpactFloorSprite.show()
 			$ImpactFloorSprite/ImpactFloorEffectTimer.start()
 		
-		change_state_to(MinionState.IDLE)
-		return
-	
 	if is_on_wall() and not _prev_is_on_wall:
+		print(_prev_velocity.x)
+		
 		# Take damage on wall impact.
 		if abs(_prev_velocity.x) >= _wall_dmg_thershold:
 			take_damage((abs(_prev_velocity.x) - _wall_dmg_thershold) * _wall_dmg_ratio)
 			$ImpactWallSprite.show()
 			$ImpactWallSprite/ImpactWallEffectTimer.start()
 			$ImpactWallSprite.flip_h = get_wall_normal().x > 0
-			
-	# If not held by cursor.
-	if _pickup_component == null or not _pickup_component.is_held():
-		if has_axe:
-			_animated_sprite.play("Limp_Axe")
-		else:
-			_animated_sprite.play("Falling")
-	else:
-		if has_axe:
-			_animated_sprite.play("Limp_Axe")
-		else:
-			_animated_sprite.play("Limp")
 
-
-func _picked_up():
-	pass
 
 func _wandering():
 	pass
@@ -255,11 +264,9 @@ func reset_bools():
 
 func get_view_array():
 	view_array = view_area.get_overlapping_bodies()
-	pass
 	
 func get_interact_array():
 	interact_array = interact_area.get_overlapping_bodies()
-	pass
 
 func build_structure():
 	var structure_instance : Entity = build_type.instantiate() as Entity
@@ -267,7 +274,6 @@ func build_structure():
 	structure_instance.position = position
 	structure_instance.position.y -= 50
 	#structure_instance.position.x += random_number * 10
-	pass
 
 func take_damage(amount : float):
 	health -= amount
@@ -298,19 +304,6 @@ func _on_impact_wall_effect_timer_timeout():
 	$ImpactWallSprite.hide()
 
 
-func _input(event):
-	if event.is_action_pressed("select") and temp_is_hovered:
-		change_state_to(MinionState.WORSHIP)
-
-
-func _on_worship_component_mouse_entered():
-	temp_is_hovered = true
-
-
-func _on_worship_component_mouse_exited():
-	temp_is_hovered = false
-
-
 func _on_worship_timer_timeout():
 	change_state_to(MinionState.IDLE)
 
@@ -318,20 +311,33 @@ func _on_worship_timer_timeout():
 func change_state_to(new_state : MinionState) -> bool:
 	var success = false
 	
+	if _state == MinionState.WORSHIP:
+		$WorshipComponent/Timer.stop()
+	
 	match new_state:
 		MinionState.IDLE:
 			success = true
+			if _state_debug:
+				print("IDLE")
 			
 		MinionState.FALLING:
 			success = true
+			if _state_debug:
+				print("FALLING")
 			
 		MinionState.PICKED_UP:
 			success = true
+			if _state_debug:
+				print("PICKED_UP")
 			
 		MinionState.WANDERING:
 			success = true
+			if _state_debug:
+				print("WANDERING")
 			
 		MinionState.WORSHIP:
+			if _state_debug:
+				print("WORSHIP")
 			if not _state == MinionState.FALLING and not _state == MinionState.PICKED_UP:
 				$WorshipComponent/Timer.start()
 				success = true
