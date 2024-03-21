@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://b7u5ttuukuhdx" path="res://features/entity/minion.tscn" id="6_jtv3i"]
 [ext_resource type="Script" path="res://gameplay/kill_area.gd" id="6_uc1pn"]
 [ext_resource type="PackedScene" uid="uid://bal1dnmt1mgeg" path="res://gameplay/objective_manager.tscn" id="7_cj0x0"]
-[ext_resource type="Script" path="res://features/cursor/cursor.gd" id="9_ofjw6"]
+[ext_resource type="PackedScene" uid="uid://wax8rcup3weu" path="res://features/cursor/god_cursor.tscn" id="9_5iffb"]
 [ext_resource type="PackedScene" uid="uid://c0ierwhaepa5j" path="res://Characters/tree.tscn" id="10_tuqad"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f1gx5"]
@@ -102,12 +102,6 @@ has_hammer = true
 
 [node name="Timer" type="Timer" parent="."]
 
-[node name="Cursor" type="Node" parent="."]
-script = ExtResource("9_ofjw6")
-
-[node name="HoldTimer" type="Timer" parent="Cursor"]
-wait_time = 0.3
-one_shot = true
+[node name="GodCursor" parent="." instance=ExtResource("9_5iffb")]
 
 [connection signal="body_entered" from="KillArea" to="KillArea" method="_on_body_entered"]
-[connection signal="timeout" from="Cursor/HoldTimer" to="Cursor" method="_on_hold_timer_timeout"]

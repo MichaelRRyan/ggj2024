@@ -49,7 +49,7 @@ func _on_mouse_entered():
 
 #-------------------------------------------------------------------------------
 func _on_mouse_exited():
-	Global.mouse.entered(self)
+	Global.mouse.exited(self)
 	_mouse_hovered = false
 
 #-------------------------------------------------------------------------------
