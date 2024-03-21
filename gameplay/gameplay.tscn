@@ -74,19 +74,19 @@ shape = SubResource("RectangleShape2D_llhst")
 position = Vector2(213, -16)
 
 [node name="tree2" parent="." instance=ExtResource("10_tuqad")]
-position = Vector2(168, -16)
+position = Vector2(17, -16)
 
 [node name="tree3" parent="." instance=ExtResource("10_tuqad")]
-position = Vector2(-84, -128)
+position = Vector2(-72, -128)
 
 [node name="tree4" parent="." instance=ExtResource("10_tuqad")]
-position = Vector2(129, -16)
+position = Vector2(117, -16)
 
 [node name="tree5" parent="." instance=ExtResource("10_tuqad")]
 position = Vector2(-51, -128)
 
 [node name="tree6" parent="." instance=ExtResource("10_tuqad")]
-position = Vector2(101, -16)
+position = Vector2(96, -16)
 
 [node name="Minion" parent="." instance=ExtResource("6_jtv3i")]
 position = Vector2(-33, -138)

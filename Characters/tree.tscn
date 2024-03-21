@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" path="res://Characters/tree.gd" id="1_418fj"]
 [ext_resource type="PackedScene" uid="uid://c0jk0xwfft5t3" path="res://features/entity/resources/resource.tscn" id="2_cmpxf"]
-[ext_resource type="Texture2D" uid="uid://csgxn6yje8wyd" path="res://assets/images/tilesets/Tileset_16.png" id="3_8gnur"]
+[ext_resource type="Texture2D" uid="uid://bncv3tf2x36bv" path="res://assets/images/tilesets/tileset_32.png" id="3_a3npe"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jx5g1"]
-size = Vector2(16, 32)
+size = Vector2(28, 63)
 
 [node name="tree" type="StaticBody2D" groups=["tree"]]
 collision_layer = 2
@@ -13,9 +13,11 @@ script = ExtResource("1_418fj")
 resource_type = ExtResource("2_cmpxf")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -15.5)
 shape = SubResource("RectangleShape2D_jx5g1")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("3_8gnur")
+position = Vector2(0, -16)
+texture = ExtResource("3_a3npe")
 region_enabled = true
-region_rect = Rect2(0, 48, 16, 32)
+region_rect = Rect2(0, 96, 32, 64)
