@@ -6,7 +6,6 @@ signal picked_up
 @export var _drag_speed := 10.0
 
 var _is_held = false
-var _mouse_hovered := false
 var _parent : CharacterBody2D = null
 var _hovered_hold_component = null
 
@@ -31,26 +30,24 @@ func _ready():
 		queue_free() # Remove this component from the scene, it won't work.
 		print_debug("Pickup component doesn't have a CharacterBody2D parent, removing from scene...")
 
-
-#-------------------------------------------------------------------------------
-func _process(_delta):
-	if _is_held:
-		var distance = get_global_mouse_position() - _parent.position
-		var raw_vel = distance * _drag_speed
-		var distance_with_framerate = distance.length() * 60.0
-		var vel_length = clamp(raw_vel.length(), -distance_with_framerate, distance_with_framerate)
-		var final_vel = raw_vel.normalized() * vel_length
-		_parent.velocity = final_vel
-		
 #-------------------------------------------------------------------------------
 func _on_mouse_entered():
 	Global.mouse.entered(self)
-	_mouse_hovered = true
 
 #-------------------------------------------------------------------------------
 func _on_mouse_exited():
 	Global.mouse.exited(self)
-	_mouse_hovered = false
+
+##-------------------------------------------------------------------------------
+#func _process(_delta):
+	#if _is_held:
+		#var distance = get_global_mouse_position() - _parent.position
+		#var raw_vel = distance * _drag_speed
+		#var distance_with_framerate = distance.length() * 60.0
+		#var vel_length = clamp(raw_vel.length(), -distance_with_framerate, distance_with_framerate)
+		#var final_vel = raw_vel.normalized() * vel_length
+		#_parent.velocity = final_vel
+		
 
 #-------------------------------------------------------------------------------
 #func _input(event):

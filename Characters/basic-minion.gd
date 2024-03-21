@@ -40,7 +40,6 @@ var view_array
 
 @onready var harvest_timer = $TimerHarvest
 
-@onready var _pickup_component : PickupComponent = get_node("PickupComponent")
 @onready var _animated_sprite : AnimatedSprite2D = get_node("AnimatedSprite2D")
 
 
@@ -148,8 +147,7 @@ func _idle(delta):
 		else:
 			_animated_sprite.play("Idle")
 	
-	if _pickup_component == null or not _pickup_component.is_held():
-		velocity.x = clamp(velocity.x + direction * acceleration * delta, -speed, speed)
+	velocity.x = clamp(velocity.x + direction * acceleration * delta, -speed, speed)
 
 
 #---------------------------------------------------------------------------------------------------

@@ -1,0 +1,15 @@
+- Slamming minion into surface doesn't always have expected impact - Since state system - applies to regular fall damage too.
+
+* Strip pickup component and add to cursor and deity.
+  - Should fix giving and taking tools to minions
+
+Strip Global.Cursor and add to cursor.
+
+* Improve level visuals
+
+* Add chopping animation.
+
+* Add shading to falling and picked up anims
+
+* Separate animations into an animation state machine
+  * Consider creating a generic state machine and states
